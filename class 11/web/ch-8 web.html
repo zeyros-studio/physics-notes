@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mechanical Properties of Solids - Exam Formula & Methods Sheet</title>
+
+  <!-- MathJax for LaTeX Formula Rendering -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      },
+      startup: {
+        pageReady: () => {
+          return MathJax.startup.defaultPageReady().then(() => {
+            document.getElementById('status-indicator').innerText = 'MathJax Rendering Complete. Ready for PDF Export.';
+            document.getElementById('status-indicator').classList.add('ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- html2pdf.js for Client-Side PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    /* Global CSS Custom Properties - Scientific Navy & Teal Theme */
+    :root {
+      --navy: #17365D;
+      --teal: #008C95;
+      --formula-bg: #EAF3FB;
+      --amber: #F4B942;
+      --warning-bg: #FCE8E6;
+      --warning-border: #E57373;
+      --text: #252A34;
+      --page-bg: #FFFFFF;
+      --border: #D9E1EA;
+      --light-grey: #F8FAFC;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background-color: #525659;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+
+    /* Screen Preview & Controls Header */
+    .no-print-header {
+      background: var(--navy);
+      color: white;
+      padding: 12px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .no-print-header h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-export {
+      background-color: var(--teal);
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-export:hover {
+      background-color: #006b72;
+    }
+
+    #status-indicator {
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      border-radius: 3px;
+      background: #e0a800;
+      color: #000;
+      font-weight: 500;
+    }
+
+    #status-indicator.ready {
+      background: #28a745;
+      color: #fff;
+    }
+
+    /* Page Container Setup for A4 Screen Preview & Print */
+    .document-wrapper {
+      max-width: 210mm;
+      margin: 20px auto;
+      background: white;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      padding: 15mm;
+    }
+
+    /* Header Banner */
+    .doc-header {
+      border-bottom: 3px solid var(--navy);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .doc-title-main {
+      color: var(--navy);
+      font-size: 22px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .doc-subtitle {
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .doc-meta {
+      text-align: right;
+      font-size: 11px;
+      color: #666;
+    }
+
+    /* Chapter Section Styling */
+    .section-title {
+      background-color: var(--navy);
+      color: white;
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 3px;
+      margin: 18px 0 10px 0;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Formula Cards System */
+    .formula-card {
+      background-color: var(--formula-bg);
+      border-left: 4px solid var(--teal);
+      border-radius: 0 6px 6px 0;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      page-break-inside: avoid;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+    }
+
+    .card-topic {
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .badge-wrapper {
+      display: flex;
+      gap: 5px;
+    }
+
+    .badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    .badge-must-know { background-color: var(--navy); color: white; }
+    .badge-exam-fav { background-color: var(--teal); color: white; }
+    .badge-shortcut { background-color: var(--amber); color: #000; }
+    .badge-special { background-color: #6c757d; color: white; }
+    .badge-caution { background-color: #dc3545; color: white; }
+
+    .formula-display {
+      text-align: center;
+      padding: 8px 0;
+      font-size: 15px;
+      color: var(--navy);
+    }
+
+    .formula-details {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 4px;
+      font-size: 11.5px;
+      border-top: 1px dashed var(--border);
+      padding-top: 6px;
+      margin-top: 4px;
+    }
+
+    .detail-row {
+      display: flex;
+    }
+
+    .detail-label {
+      font-weight: 700;
+      color: var(--navy);
+      min-width: 100px;
+    }
+
+    /* Derivation Block */
+    .derivation-box {
+      border: 1px solid var(--border);
+      background-color: var(--light-grey);
+      border-radius: 4px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      page-break-inside: avoid;
+    }
+
+    .derivation-title {
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 12px;
+      margin-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 3px;
+    }
+
+    .derivation-step {
+      margin-bottom: 4px;
+      font-size: 11.5px;
+    }
+
+    /* Numerical Solving Method Structure */
+    .method-box {
+      border: 1px dashed var(--teal);
+      background-color: #F0F9FA;
+      border-radius: 4px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      page-break-inside: avoid;
+    }
+
+    .method-title {
+      font-weight: 700;
+      color: var(--teal);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .method-flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 11px;
+      color: var(--navy);
+    }
+
+    .flow-step {
+      background: white;
+      border: 1px solid var(--border);
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+
+    .flow-arrow {
+      color: var(--teal);
+      font-weight: bold;
+    }
+
+    /* Caution / Warning Box */
+    .caution-box {
+      background-color: var(--warning-bg);
+      border-left: 4px solid var(--warning-border);
+      padding: 8px 12px;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 12px;
+      font-size: 11.5px;
+      page-break-inside: avoid;
+    }
+
+    .caution-title {
+      font-weight: 700;
+      color: #c62828;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Data Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 11px;
+      page-break-inside: avoid;
+    }
+
+    .data-table th {
+      background-color: var(--navy);
+      color: white;
+      text-align: left;
+      padding: 5px 8px;
+      font-weight: 600;
+    }
+
+    .data-table td {
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+    }
+
+    .data-table tr:nth-child(even) {
+      background-color: var(--light-grey);
+    }
+
+    /* Graph Container */
+    .graph-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .graph-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 8px;
+      background: white;
+      text-align: center;
+      page-break-inside: avoid;
+    }
+
+    .graph-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    svg text {
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Page Footer for Print */
+    .doc-footer {
+      margin-top: 25px;
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      font-size: 10px;
+      color: #777;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Print & PDF Export Rules */
+    @media print {
+      body {
+        background-color: white;
+      }
+
+      .no-print-header {
+        display: none !important;
+      }
+
+      .document-wrapper {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+      }
+
+      .section-title, .formula-card, .derivation-box, .method-box, .caution-box, .data-table, .graph-card {
+        page-break-inside: avoid;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 12mm 10mm 12mm 10mm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen Header / PDF Controls -->
+  <div class="no-print-header">
+    <h1>Physics Revision Notes: Mechanical Properties of Solids</h1>
+    <div style="display: flex; gap: 15px; align-items: center;">
+      <span id="status-indicator">Rendering MathJax...</span>
+      <button class="btn-export" onclick="exportToPDF()">Export to A4 PDF</button>
+    </div>
+  </div>
+
+  <!-- Document Body Wrapper -->
+  <div class="document-wrapper" id="pdf-content">
+    
+    <!-- Document Header Banner -->
+    <div class="doc-header">
+      <div>
+        <div class="doc-title-main">Mechanical Properties of Solids</div>
+        <div class="doc-subtitle">NCERT Class 11 Physics | JEE Main / NEET Formula & Method Sheet</div>
+      </div>
+      <div class="doc-meta">
+        <div><strong>Theme:</strong> Scientific Navy & Teal</div>
+        <div><strong>Format:</strong> High-Density Revision</div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: STRESS, STRAIN & HOOKE'S LAW -->
+    <div class="section-title">
+      <span>1. Stress, Strain & Hooke's Law</span>
+      <span style="font-size: 10px; opacity: 0.8;">Fundamentals</span>
+    </div>
+
+    <!-- Formula Card 1: Longitudinal Stress & Strain -->
+    <div class="formula-card">
+      <div class="card-header">
+        <span class="card-topic">Longitudinal Stress & Strain</span>
+        <div class="badge-wrapper">
+          <span class="badge badge-must-know">Must Know</span>
+        </div>
+      </div>
+      <div class="formula-display">
+        $$\text{Tensile / Compressive Stress } (\sigma) = \frac{F}{A}, \quad \text{Longitudinal Strain } (\epsilon) = \frac{\Delta L}{L}$$
+      </div>
+      <div class="formula-details">
+        <div class="detail-row">
+          <span class="detail-label">Symbols:</span>
+          <span>$F$: Applied normal force ($\text{N}$), $A$: Cross-sectional area ($\text{m}^2$), $L$: Original length, $\Delta L$: Elongation/compression.</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">SI Units:</span>
+          <span>Stress: $\text{N m}^{-2}$ or Pascal ($\text{Pa}$); Strain: Dimensionless [$M^0L^0T^0$].</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Conditions:</span>
+          <span>Force $F$ must act perpendicular (normal) to the cross-sectional area $A$.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formula Card 2: Shearing & Volume Stress / Strain -->
+    <div class="formula-card">
+      <div class="card-header">
+        <span class="card-topic">Shearing & Hydraulic (Volume) Strain</span>
+        <div class="badge-wrapper">
+          <span class="badge badge-must-know">Must Know</span>
+        </div>
+      </div>
+      <div class="formula-display">
+        $$\text{Shearing Strain } (\theta) = \frac{\Delta x}{L} = \tan \theta \approx \theta, \quad \text{Volume Strain } = \frac{\Delta V}{V}$$
+      </div>
+      <div class="formula-details">
+        <div class="detail-row">
+          <span class="detail-label">Symbols:</span>
+          <span>$\Delta x$: Lateral displacement of top face, $L$: Distance between opposite fixed faces, $\Delta V$: Change in volume, $V$: Original volume.</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Shear Stress:</span>
+          <span>$\sigma_s = \frac{F_{\parallel}}{A}$, where $F_{\parallel}$ is tangential force applied parallel to the surface.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formula Card 3: Hooke's Law -->
+    <div class="formula-card">
+      <div class="card-header">
+        <span class="card-topic">Hooke's Law</span>
+        <div class="badge-wrapper">
+          <span class="badge badge-must-know">Must Know</span>
+          <span class="badge badge-exam-fav">Exam Favourite</span>
+        </div>
+      </div>
+      <div class="formula-display">
+        $$\text{Stress} \propto \text{Strain} \implies \text{Stress} = k \times \text{Strain} \implies k = \frac{\text{Stress}}{\text{Strain}}$$
+      </div>
+      <div class="formula-details">
+        <div class="detail-row">
+          <span class="detail-label">Modulus ($k$):</span>
+          <span>Proportionality constant known as **Modulus of Elasticity**. Depends on material nature and temperature, independent of dimensions.</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Validity:</span>
+          <span>Strictly valid only within the proportional limit / small deformations ($\epsilon < 1\%$).</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: STRESS-STRAIN DIAGRAM & MATERIAL PROPERTIES -->
+    <div class="section-title">
+      <span>2. Stress-Strain Curve & Elasticity Analysis</span>
+      <span style="font-size: 10px; opacity: 0.8;">Graphical Analysis</span>
+    </div>
+
+    <div class="graph-grid">
+      <!-- SVG Graph 1: Standard Metal Stress-Strain Curve -->
+      <div class="graph-card">
+        <div class="graph-title">A. Typical Metal Stress-Strain Curve</div>
+        <svg width="220" height="150" viewBox="0 0 220 150">
+          <!-- Axes -->
+          <line x1="30" y1="130" x2="210" y2="130" stroke="#17365D" stroke-width="2"/>
+          <line x1="30" y1="130" x2="30" y2="10" stroke="#17365D" stroke-width="2"/>
+          <!-- Labels -->
+          <text x="110" y="146" font-size="9" fill="#252A34" text-anchor="middle">Strain ($\epsilon$)</text>
+          <text x="10" y="70" font-size="9" fill="#252A34" transform="rotate(-90 10,70)" text-anchor="middle">Stress ($\sigma$)</text>
+          <!-- Curve -->
+          <path d="M 30,130 L 70,50 Q 80,42 90,45 Q 130,50 160,20 Q 175,25 190,40" fill="none" stroke="#008C95" stroke-width="2"/>
+          <!-- Critical Points -->
+          <circle cx="70" cy="50" r="3" fill="#17365D"/><text x="60" y="45" font-size="8" fill="#17365D">A (Prop. Limit)</text>
+          <circle cx="90" cy="45" r="3" fill="#F4B942"/><text x="95" y="42" font-size="8" fill="#17365D">B (Yield Point $\sigma_y$)</text>
+          <circle cx="160" cy="20" r="3" fill="#008C95"/><text x="160" y="12" font-size="8" fill="#008C95">D (Ultimate $\sigma_u$)</text>
+          <circle cx="190" cy="40" r="3" fill="#c62828"/><text x="190" y="52" font-size="8" fill="#c62828">E (Fracture)</text>
+          <!-- Unloading Path -->
+          <line x1="100" y1="52" x2="60" y2="130" stroke="#666" stroke-dasharray="2,2"/>
+          <text x="40" y="125" font-size="7" fill="#c62828">Perm. Set</text>
+        </svg>
+      </div>
+
+      <!-- SVG Graph 2: Elastomer Curve (Aorta / Rubber) -->
+      <div class="graph-card">
+        <div class="graph-title">B. Elastomer Curve (Aorta Tissue)</div>
+        <svg width="220" height="150" viewBox="0 0 220 150">
+          <!-- Axes -->
+          <line x1="30" y1="130" x2="210" y2="130" stroke="#17365D" stroke-width="2"/>
+          <line x1="30" y1="130" x2="30" y2="10" stroke="#17365D" stroke-width="2"/>
+          <text x="110" y="146" font-size="9" fill="#252A34" text-anchor="middle">Strain ($\epsilon$)</text>
+          <text x="10" y="70" font-size="9" fill="#252A34" transform="rotate(-90 10,70)" text-anchor="middle">Stress ($\sigma$)</text>
+          <!-- Non-linear Elastic Path -->
+          <path d="M 30,130 Q 120,125 180,20" fill="none" stroke="#008C95" stroke-width="2"/>
+          <text x="110" y="80" font-size="8" fill="#17365D" text-anchor="middle">Non-linear Elastic Region</text>
+          <text x="110" y="92" font-size="7.5" fill="#666" text-anchor="middle">(No Hooke's Law obeyed, No Plastic Region)</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="caution-box">
+      <div class="caution-title">
+        <span>⚠ EXAM CAUTION & INTERPRETATION OF STRESS-STRAIN GRAPHS:</span>
+      </div>
+      1. <strong>Ductile vs. Brittle Materials:</strong> If fracture point $E$ is far from ultimate strength $D$, material is <strong>Ductile</strong>. If $D$ and $E$ are close, it is <strong>Brittle</strong>.<br>
+      2. <strong>Young's Modulus from Slope:</strong> $Y = \text{Slope of linear region } (OA) = \frac{\Delta \sigma}{\Delta \epsilon}$. Higher slope $\implies$ More rigid / elastic material (e.g., $Y_{\text{steel}} > Y_{\text{copper}}$).
+    </div>
+
+    <!-- SECTION 3: ELASTIC MODULI -->
+    <div class="section-title">
+      <span>3. Three Elastic Moduli (Young's, Shear, Bulk)</span>
+      <span style="font-size: 10px; opacity: 0.8;">Core Formulations</span>
+    </div>
+
+    <!-- Formula Card 4: Young's Modulus -->
+    <div class="formula-card">
+      <div class="card-header">
+        <span class="card-topic">1. Young's Modulus ($Y$) — Length Change</span>
+        <div class="badge-wrapper">
+          <span class="badge badge-must-know">Must Know</span>
+          <span class="badge badge-exam-fav">Exam Favourite</span>
+        </div>
+      </div>
+      <div class="formula-display">
+        $$Y = \frac{\text{Tensile or Compressive Stress}}{\text{Longitudinal Strain}} = \frac{F / A}{\Delta L / L} = \frac{F \cdot L}{A \cdot \Delta L}$$
+      </div>
+      <div class="formula-details">
+        <div class="detail-row">
+          <span class="detail-label">For Circular Wire:</span>
+          <span>$A = \pi r^2 = \frac{\pi d^2}{4} \implies Y = \frac{4 F L}{\pi d^2 \Delta L} \implies \Delta L = \frac{4 F L}{\pi d^2 Y}$</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Key Property:</span>
+          <span>Defined <strong>ONLY FOR SOLIDS</strong>. Steel is more elastic than copper/rubber because it requires greater force for the same strain.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formula Card 5: Shear Modulus -->
+    <div class="formula-card">
+      <div class="card-header">
+        <span class="card-topic">2. Shear Modulus ($G$ or $\eta$) — Shape Change</span>
+        <div class="badge-wrapper">
+          <span class="badge badge-must-know">Must Know</span>
+        </div>
+      </div>
+      <div class="formula-display">
+        $$G = \frac{\text{Shearing Stress}}{\text{Shearing Strain}} = \frac{F_{\parallel} / A}{\Delta x / L} = \frac{F_{\parallel} / A}{\theta} = \frac{F_{\parallel}}{A \cdot \theta}$$
+      </div>
+      <div class="formula-details">
+        <div class="detail-row">
+          <span class="detail-label">Empirical Relation:</span>
+          <span>For most solids, Shear Modulus is approximately one-third of Young's Modulus: $G \approx \frac{Y}{3}$.</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Applicability:</span>
+          <span>Defined <strong>ONLY FOR SOLIDS</strong> (Fluids cannot sustain static shearing stress).</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formula Card 6: Bulk Modulus & Compressibility -->
+    <div class="formula-card">
+      <div class="card-header">
+        <span class="card-topic">3. Bulk Modulus ($B$) & Compressibility ($k$) — Volume Change</span>
+        <div class="badge-wrapper">
+          <span class="badge badge-must-know">Must Know</span>
+          <span class="badge badge-exam-fav">Exam Favourite</span>
+        </div>
+      </div>
+      <div class="formula-display">
+        $$B = -\frac{p}{\Delta V / V} = -V \frac{\Delta p}{\Delta V}, \quad \text{Compressibility } k = \frac{1}{B} = -\frac{1}{V} \frac{\Delta V}{\Delta p}$$
+      </div>
+      <div class="formula-details">
+        <div class="detail-row">
+          <span class="detail-label">Negative Sign:</span>
+          <span>Indicates that increase in pressure ($p > 0$) causes decrease in volume ($\Delta V < 0$), keeping $B > 0$.</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Fluid Depth Form:</span>
+          <span>Pressure at depth $h$: $p = h \rho g \implies \frac{\Delta V}{V} = \frac{h \rho g}{B}$.</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">States Comparison:</span>
+          <span>$B_{\text{solid}} > B_{\text{liquid}} > B_{\text{gas}}$. Gases are $\sim 10^6$ times more compressible than solids.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison Summary Table -->
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Modulus</th>
+          <th>Stress Type</th>
+          <th>Strain Type</th>
+          <th>Formula</th>
+          <th>Applicable State</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Young's ($Y$)</strong></td>
+          <td>Normal ($F/A$)</td>
+          <td>Longitudinal ($\Delta L/L$)</td>
+          <td>$Y = \frac{F L}{A \Delta L}$</td>
+          <td>Solids only</td>
+        </tr>
+        <tr>
+          <td><strong>Shear ($G$)</strong></td>
+          <td>Tangential ($F_{\parallel}/A$)</td>
+          <td>Shear angle ($\theta = \Delta x / L$)</td>
+          <td>$G = \frac{F_{\parallel}}{A \theta}$</td>
+          <td>Solids only</td>
+        </tr>
+        <tr>
+          <td><strong>Bulk ($B$)</strong></td>
+          <td>Hydraulic ($p$)</td>
+          <td>Volume ($\Delta V/V$)</td>
+          <td>$B = -\frac{p V}{\Delta V}$</td>
+          <td>Solids, Liquids, Gases</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 4: LATERAL STRAIN, POISSON'S RATIO & ENERGY -->
+    <div class="section-title">
+      <span>4. Poisson's Ratio & Elastic Potential Energy</span>
+      <span style="font-size: 10px; opacity: 0.8;">Derived Properties</span>
+    </div>
+
+    <!-- Formula Card 7: Poisson's Ratio -->
+    <div class="formula-card">
+      <div class="card-header">
+        <span class="card-topic">Poisson's Ratio ($\nu$ or $\sigma$)</span>
+        <div class="badge-wrapper">
+          <span class="badge badge-must-know">Must Know</span>
+          <span class="badge badge-special">Special Case</span>
+        </div>
+      </div>
+      <div class="formula-display">
+        $$\nu = -\frac{\text{Lateral Strain}}{\text{Longitudinal Strain}} = -\frac{\Delta d / d}{\Delta L / L} = -\frac{\Delta r / r}{\Delta L / L}$$
+      </div>
+      <div class="formula-details">
+        <div class="detail-row">
+          <span class="detail-label">Unit & Dimension:</span>
+          <span>Pure numerical ratio. Dimensionless [$M^0L^0T^0$].</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Theoretical Limit:</span>
+          <span>$-1 \leq \nu \leq 0.5$. Practical value for engineering metals: $0.28 \leq \nu \leq 0.33$.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Derivation Box: Elastic Energy -->
+    <div class="derivation-box">
+      <div class="derivation-title">Derivation: Strain Energy / Elastic Potential Energy in Stretched Wire</div>
+      <div class="derivation-step">1. Restoring force at elongation $x$: $F(x) = \frac{Y A x}{L}$</div>
+      <div class="derivation-step">2. Work done for infinitesimal elongation $dx$: $dW = F(x) \, dx = \frac{Y A x}{L} \, dx$</div>
+      <div class="derivation-step">3. Total work done for total extension $l$:
+        $$W = \int_{0}^{l} \frac{Y A x}{L} \, dx = \frac{Y A}{L} \left[ \frac{x^2}{2} \right]_0^l = \frac{1}{2} \frac{Y A l^2}{L} = \frac{1}{2} \left( \frac{Y A l}{L} \right) l = \boxed{\frac{1}{2} F \cdot l}$$
+      </div>
+      <div class="derivation-step">4. Energy per unit volume (Energy Density $u$):
+        $$u = \frac{U}{\text{Volume}} = \frac{\frac{1}{2} F \cdot l}{A \cdot L} = \frac{1}{2} \left(\frac{F}{A}\right) \left(\frac{l}{L}\right) = \boxed{\frac{1}{2} \times \text{Stress} \times \text{Strain} = \frac{1}{2} Y (\text{Strain})^2}$$
+      </div>
+    </div>
+
+    <!-- SECTION 5: PRACTICAL & ENGINEERING APPLICATIONS -->
+    <div class="section-title">
+      <span>5. Engineering Applications & Real-World Methods</span>
+      <span style="font-size: 10px; opacity: 0.8;">Exam Oriented</span>
+    </div>
+
+    <!-- Formula Card 8: Bending of Beams & Crane Wire -->
+    <div class="formula-card">
+      <div class="card-header">
+        <span class="card-topic">Bending of Beams & Maximum Mountain Height</span>
+        <div class="badge-wrapper">
+          <span class="badge badge-exam-fav">Exam Favourite</span>
+          <span class="badge badge-shortcut">Shortcut</span>
+        </div>
+      </div>
+      <div class="formula-display">
+        $$\text{Sag / Deflection } (\delta) = \frac{W L^3}{4 b d^3 Y}, \quad h_{\text{max}} \approx \frac{\sigma_{\text{elastic}}}{\rho g} \approx 10 \text{ km}$$
+      </div>
+      <div class="formula-details">
+        <div class="detail-row">
+          <span class="detail-label">Beam Optimization:</span>
+          <span>To minimize bending $\delta$, depth $d$ is increased rather than width $b$ because $\delta \propto d^{-3}$. I-section beams prevent buckling and save material.</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Crane Steel Rope:</span>
+          <span>Minimum area required to lift load $M$: $A \ge \frac{M g}{\sigma_y}$. Uses braided thin wires for flexibility and strength.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 6: NUMERICAL SOLVING METHODS (EXAM ALGORITHMS) -->
+    <div class="section-title">
+      <span>6. Standard Numerical Solving Algorithms</span>
+      <span style="font-size: 10px; opacity: 0.8;">Step-by-Step Methods</span>
+    </div>
+
+    <!-- Method 1: Composite Wires in Series -->
+    <div class="method-box">
+      <div class="method-title">METHOD 1: Two Wires Connected End-to-End (Series Load)</div>
+      <div class="method-flow">
+        <span class="flow-step">Identify Same Tension: $F_1 = F_2 = F = W$</span>
+        <span class="flow-arrow">&rightarrow;</span>
+        <span class="flow-step">Express Elongations: $\Delta L_1 = \frac{F L_1}{A_1 Y_1}, \, \Delta L_2 = \frac{F L_2}{A_2 Y_2}$</span>
+        <span class="flow-arrow">&rightarrow;</span>
+        <span class="flow-step">Ratio Formula: $\frac{\Delta L_1}{\Delta L_2} = \left(\frac{Y_2}{Y_1}\right) \left(\frac{L_1}{L_2}\right) \left(\frac{A_2}{A_1}\right)$</span>
+        <span class="flow-arrow">&rightarrow;</span>
+        <span class="flow-step">Total Elongation: $\Delta L_{\text{total}} = \Delta L_1 + \Delta L_2$</span>
+      </div>
+    </div>
+
+    <!-- Method 2: Mass Whirled in Vertical Circle -->
+    <div class="method-box">
+      <div class="method-title">METHOD 2: Wire Whirled in a Vertical Circle (Bottom Point)</div>
+      <div class="method-flow">
+        <span class="flow-step">Max Tension at Lowest Point: $T_{\text{max}} = M g + M \omega^2 L$</span>
+        <span class="flow-arrow">&rightarrow;</span>
+        <span class="flow-step">Set Stress Equation: $\sigma_{\text{max}} = \frac{T_{\text{max}}}{A}$</span>
+        <span class="flow-arrow">&rightarrow;</span>
+        <span class="flow-step">Calculate Elongation: $\Delta L = \frac{T_{\text{max}} L}{A Y}$</span>
+      </div>
+    </div>
+
+    <!-- Method 3: Density Change at Great Depth -->
+    <div class="method-box">
+      <div class="method-title">METHOD 3: Density Variation under High Hydraulic Pressure</div>
+      <div class="method-flow">
+        <span class="flow-step">Mass Conservation: $m = \rho V = \rho' V'$</span>
+        <span class="flow-arrow">&rightarrow;</span>
+        <span class="flow-step">Volume Change: $V' = V(1 - \frac{p}{B})$</span>
+        <span class="flow-arrow">&rightarrow;</span>
+        <span class="flow-step">New Density: $\rho' = \frac{\rho}{1 - \frac{p}{B}} \approx \rho \left(1 + \frac{p}{B}\right)$</span>
+      </div>
+    </div>
+
+    <!-- SECTION 7: COMMON ERRORS & CHECKLIST -->
+    <div class="section-title">
+      <span>7. Common Calculation Mistakes & Exam Checklist</span>
+      <span style="font-size: 10px; opacity: 0.8;">Error Prevention</span>
+    </div>
+
+    <div class="caution-box">
+      <div class="caution-title">
+        <span>⛔ COMMON STUDENT ERRORS & MISTAKES:</span>
+      </div>
+      1. <strong>Diameter vs. Radius Confusion:</strong> $A = \pi r^2 = \pi \left(\frac{d}{2}\right)^2 = \frac{\pi d^2}{4}$. Forgetting to halve diameter is the #1 mistake.<br>
+      2. <strong>Unit Conversions:</strong> $1 \text{ GPa} = 10^9 \text{ N m}^{-2}$, $1 \text{ MPa} = 10^6 \text{ N m}^{-2}$, $1 \text{ atm} = 1.013 \times 10^5 \text{ Pa}$, $1 \text{ cm}^2 = 10^{-4} \text{ m}^2$, $1 \text{ mm}^2 = 10^{-6} \text{ m}^2$.<br>
+      3. <strong>Tension in Mid-wire:</strong> In a hanging wire loaded with weight $W$, tension at any section is $W$, NOT $2W$.<br>
+      4. <strong>Elasticity Misconception:</strong> Steel is <i>more</i> elastic than rubber because steel requires a much larger stress for the same strain.
+    </div>
+
+    <!-- Document Footer -->
+    <div class="doc-footer">
+      <span>Physics Formula & Methods PDF • Mechanical Properties of Solids</span>
+      <span>NCERT Class 11 / JEE Main / NEET</span>
+      <span>Page 1 of 1</span>
+    </div>
+
+  </div>
+
+  <!-- JavaScript Code for PDF Export -->
+  <script>
+    function exportToPDF() {
+      const element = document.getElementById('pdf-content');
+      
+      // Configuration options for html2pdf
+      const opt = {
+        margin:       [10, 8, 10, 8], // top, left, bottom, right in mm
+        filename:     'Mechanical_Properties_of_Solids_Formula_Sheet.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, logging: false },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      // Trigger rendering and download
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+</body>
+</html>

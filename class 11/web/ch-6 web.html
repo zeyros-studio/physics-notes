@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Formula & Methods: Systems of Particles & Rotational Motion</title>
+    <!-- MathJax for LaTeX typesetting -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --navy: #17365D;
+            --teal: #008C95;
+            --formula-bg: #EAF3FB;
+            --amber: #F4B942;
+            --warning-bg: #FCE8E6;
+            --text: #252A34;
+            --page-bg: #FFFFFF;
+            --border: #D9E1EA;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background-color: var(--page-bg);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: var(--page-bg);
+            padding: 20mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Header Banner */
+        .header-banner {
+            background-color: var(--navy);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+
+        .header-banner h1 {
+            font-size: 26px;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .header-banner p {
+            font-size: 13px;
+            color: #d9e1ea;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            color: var(--navy);
+            font-size: 19px;
+            border-bottom: 2px solid var(--teal);
+            padding-bottom: 4px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            page-break-after: avoid;
+        }
+
+        p {
+            margin-bottom: 8px;
+            font-size: 13.5px;
+        }
+
+        /* Formula Cards */
+        .formula-card {
+            background-color: var(--formula-bg);
+            border-left: 4px solid var(--teal);
+            border-radius: 4px;
+            padding: 12px 15px;
+            margin: 12px 0;
+            page-break-inside: avoid;
+        }
+
+        .formula-card .topic {
+            font-weight: bold;
+            color: var(--navy);
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .equation-box {
+            text-align: center;
+            margin: 8px 0;
+            font-size: 15px;
+        }
+
+        .card-details {
+            font-size: 12.5px;
+            margin-top: 6px;
+        }
+
+        .card-details span {
+            font-weight: 600;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            border-radius: 4px;
+            padding: 10px 14px;
+            margin: 12px 0;
+            font-size: 12.5px;
+            page-break-inside: avoid;
+        }
+
+        .callout.must-know {
+            background-color: var(--formula-bg);
+            border-left: 4px solid var(--teal);
+        }
+
+        .callout.exam-favourite {
+            background-color: #FFF8E7;
+            border-left: 4px solid var(--amber);
+        }
+
+        .callout.shortcut {
+            background-color: #EBFBEE;
+            border-left: 4px solid #2E7D32;
+        }
+
+        .callout.caution {
+            background-color: var(--warning-bg);
+            border-left: 4px solid #D9534F;
+        }
+
+        .callout-title {
+            font-weight: bold;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+
+        .must-know .callout-title { color: var(--teal); }
+        .exam-favourite .callout-title { color: #B38600; }
+        .shortcut .callout-title { color: #2E7D32; }
+        .caution .callout-title { color: #D9534F; }
+
+        /* Derivation & Numerical Method Boxes */
+        .method-box {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 12px 15px;
+            margin: 12px 0;
+            background-color: #FAFAFA;
+            page-break-inside: avoid;
+        }
+
+        .method-title {
+            font-weight: bold;
+            color: var(--navy);
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .step-flow {
+            text-align: center;
+            font-size: 13px;
+            margin: 8px 0;
+            line-height: 1.8;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 12.5px;
+            page-break-inside: avoid;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 7px 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--navy);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+
+        /* Export Button */
+        .no-print {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn-export {
+            background-color: var(--teal);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .btn-export:hover {
+            background-color: #006D75;
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { padding: 0; background: white; }
+            .container { box-shadow: none; padding: 10mm; width: 100%; max-width: none; }
+            @page { size: A4 portrait; margin: 12mm; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print">
+    <button class="btn-export" onclick="window.print()">Export to PDF / Print A4</button>
+</div>
+
+<div class="container">
+
+    <!-- Header Banner -->
+    <div class="header-banner">
+        <h1>PHYSICS FORMULA & METHODS HANDBOOK</h1>
+        <p>Chapter 6: Systems of Particles and Rotational Motion | CBSE / JEE / NEET Exam-Oriented Notes</p>
+    </div>
+
+    <!-- Section 1: Centre of Mass -->
+    <h2>1. Centre of Mass (CM)</h2>
+    
+    <div class="formula-card">
+        <div class="topic">Topic: Position Vector of Centre of Mass</div>
+        <div class="equation-box">
+            \[\vec{R}_{\text{cm}} = \frac{\sum_{i=1}^{n} m_i \vec{r}_i}{M} = \frac{\int \vec{r} \, dm}{M}\]
+        </div>
+        <div class="card-details">
+            <span>Discrete Components:</span> \(X_{\text{cm}} = \frac{\sum m_i x_i}{M}, \quad Y_{\text{cm}} = \frac{\sum m_i y_i}{M}, \quad Z_{\text{cm}} = \frac{\sum m_i z_i}{M}\)<br>
+            <span>Continuous Components:</span> \(X_{\text{cm}} = \frac{1}{M} \int x \, dm, \quad Y_{\text{cm}} = \frac{1}{M} \int y \, dm, \quad Z_{\text{cm}} = \frac{1}{M} \int z \, dm\)
+        </div>
+    </div>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Kinematics & Dynamics of Centre of Mass</div>
+        <div class="equation-box">
+            \[\vec{V}_{\text{cm}} = \frac{d\vec{R}_{\text{cm}}}{dt} = \frac{\sum m_i \vec{v}_i}{M} = \frac{\vec{P}_{\text{total}}}{M}\]
+            \[\vec{A}_{\text{cm}} = \frac{d\vec{V}_{\text{cm}}}{dt} = \frac{\sum m_i \vec{a}_i}{M} = \frac{\vec{F}_{\text{ext}}}{M}\]
+        </div>
+        <div class="card-details">
+            <span>Conservation of Momentum:</span> If \(\vec{F}_{\text{ext}} = 0 \implies \vec{P}_{\text{total}} = \text{constant}\) and \(\vec{V}_{\text{cm}} = \text{constant}\).
+        </div>
+    </div>
+
+    <div class="callout shortcut">
+        <div class="callout-title">Shortcut: Mass Removal / Cut-out Bodies</div>
+        When a shape of mass \(m'\) is removed from a uniform object of mass \(M_0\), the new centre of mass relative to original origin is:
+        \[X_{\text{new}} = \frac{M_0 X_0 - m' x'}{M_0 - m'}\]
+    </div>
+
+    <!-- Section 2: Vector Cross Product & Angular Variables -->
+    <h2>2. Vector Product & Kinematics of Rotation</h2>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Vector (Cross) Product</div>
+        <div class="equation-box">
+            \[\vec{A} \times \vec{B} = (AB \sin\theta) \hat{n} = \begin{vmatrix} \hat{i} & \hat{j} & \hat{k} \\ A_x & A_y & A_z \\ B_x & B_y & B_z \end{vmatrix}\]
+        </div>
+        <div class="card-details">
+            <span>Properties:</span> Anti-commutative (\(\vec{A} \times \vec{B} = -\vec{B} \times \vec{A}\)). Unit vectors: \(\hat{i}\times\hat{j}=\hat{k}, \, \hat{j}\times\hat{k}=\hat{i}, \, \hat{k}\times\hat{i}=\hat{j}\).
+        </div>
+    </div>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Relation Between Linear and Angular Variables</div>
+        <div class="equation-box">
+            \[\vec{v} = \vec{\omega} \times \vec{r} \implies v = \omega r_\perp\]
+            \[\vec{a}_t = \vec{\alpha} \times \vec{r} \implies a_t = \alpha r_\perp \quad \text{and} \quad a_c = \frac{v^2}{r} = \omega^2 r\]
+        </div>
+        <div class="card-details">
+            <span>Angular Kinematic Equations (Constant \(\alpha\)):</span>
+            \[\omega = \omega_0 + \alpha t \quad | \quad \theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2 \quad | \quad \omega^2 = \omega_0^2 + 2\alpha(\theta - \theta_0)\]
+        </div>
+    </div>
+
+    <!-- Section 3: Torque & Angular Momentum -->
+    <h2>3. Torque & Angular Momentum</h2>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Torque (Moment of Force)</div>
+        <div class="equation-box">
+            \[\vec{\tau} = \vec{r} \times \vec{F} \implies \tau = r F \sin\theta = r_\perp F = r F_\perp\]
+        </div>
+        <div class="card-details">
+            <span>SI Unit:</span> \(\text{N m}\) | <span>Dimensions:</span> \([ML^2T^{-2}]\)<br>
+            <span>Rotational Form:</span> \(\vec{\tau}_{\text{ext}} = I \vec{\alpha}\) (for rotation about a fixed axis).
+        </div>
+    </div>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Angular Momentum (Moment of Linear Momentum)</div>
+        <div class="equation-box">
+            \[\vec{L} = \vec{r} \times \vec{p} \implies L = r p \sin\theta = r_\perp p\]
+            \[\vec{L}_z = I \vec{\omega} \quad \text{(for symmetric rigid bodies rotating about fixed z-axis)}\]
+        </div>
+        <div class="card-details">
+            <span>SI Unit:</span> \(\text{J s}\) or \(\text{kg m}^2 \text{s}^{-1}\) | <span>Dimensions:</span> \([ML^2T^{-1}]\)<br>
+            <span>Fundamental Dynamic Law:</span> \(\vec{\tau}_{\text{ext}} = \frac{d\vec{L}}{dt}\)
+        </div>
+    </div>
+
+    <div class="callout must-know">
+        <div class="callout-title">Must Know: Law of Conservation of Angular Momentum</div>
+        If the net external torque acting on a system is zero (\(\vec{\tau}_{\text{ext}} = 0\)):
+        \[\frac{d\vec{L}}{dt} = 0 \implies \vec{L} = \text{constant} \implies I_1 \omega_1 = I_2 \omega_2\]
+        <i>Application:</i> A spinning acrobat folding arms reduces \(I\), causing angular speed \(\omega\) to increase.
+    </div>
+
+    <!-- Section 4: Moment of Inertia & Rotational Dynamics -->
+    <h2>4. Moment of Inertia (\(I\)) & Energy</h2>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Moment of Inertia & Radius of Gyration</div>
+        <div class="equation-box">
+            \[I = \sum_{i=1}^n m_i r_i^2 = \int r^2 \, dm \quad \text{and} \quad I = M k^2 \implies k = \sqrt{\frac{I}{M}}\]
+        </div>
+        <div class="card-details">
+            <span>SI Unit:</span> \(\text{kg m}^2\) | <span>Dimensions:</span> \([ML^2]\)<br>
+            <span>Rotational Kinetic Energy:</span> \(K_{\text{rot}} = \frac{1}{2}I\omega^2 = \frac{L^2}{2I}\)<br>
+            <span>Work & Power:</span> \(W = \int \tau \, d\theta, \quad P = \vec{\tau} \cdot \vec{\omega}\)
+        </div>
+    </div>
+
+    <!-- Standard Moments of Inertia Table -->
+    <h2>5. Standard Moments of Inertia Reference Table</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Body</th>
+                <th>Axis of Rotation</th>
+                <th>Moment of Inertia (\(I\))</th>
+                <th>Radius of Gyration (\(k\))</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Thin Circular Ring (Radius \(R\))</td>
+                <td>Perpendicular to plane at centre</td>
+                <td>\(M R^2\)</td>
+                <td>\(R\)</td>
+            </tr>
+            <tr>
+                <td>Thin Circular Ring (Radius \(R\))</td>
+                <td>Along any diameter</td>
+                <td>\(\frac{1}{2} M R^2\)</td>
+                <td>\(\frac{R}{\sqrt{2}}\)</td>
+            </tr>
+            <tr>
+                <td>Thin Rod (Length \(L\))</td>
+                <td>Perpendicular to rod at mid-point</td>
+                <td>\(\frac{1}{12} M L^2\)</td>
+                <td>\(\frac{L}{\sqrt{12}}\)</td>
+            </tr>
+            <tr>
+                <td>Circular Disc (Radius \(R\))</td>
+                <td>Perpendicular to disc at centre</td>
+                <td>\(\frac{1}{2} M R^2\)</td>
+                <td>\(\frac{R}{\sqrt{2}}\)</td>
+            </tr>
+            <tr>
+                <td>Circular Disc (Radius \(R\))</td>
+                <td>Along any diameter</td>
+                <td>\(\frac{1}{4} M R^2\)</td>
+                <td>\(\frac{R}{2}\)</td>
+            </tr>
+            <tr>
+                <td>Hollow Cylinder (Radius \(R\))</td>
+                <td>Central axis of cylinder</td>
+                <td>\(M R^2\)</td>
+                <td>\(R\)</td>
+            </tr>
+            <tr>
+                <td>Solid Cylinder (Radius \(R\))</td>
+                <td>Central axis of cylinder</td>
+                <td>\(\frac{1}{2} M R^2\)</td>
+                <td>\(\frac{R}{\sqrt{2}}\)</td>
+            </tr>
+            <tr>
+                <td>Solid Sphere (Radius \(R\))</td>
+                <td>Along any diameter</td>
+                <td>\(\frac{2}{5} M R^2\)</td>
+                <td>\(\sqrt{\frac{2}{5}} R\)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Section 6: Equilibrium of Rigid Bodies -->
+    <h2>6. Equilibrium & Levers</h2>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Conditions for Mechanical Equilibrium</div>
+        <div class="equation-box">
+            \[\text{Translational Equilibrium: } \vec{F}_{\text{net}} = \sum \vec{F}_i = 0 \implies \vec{P} = \text{constant}\]
+            \[\text{Rotational Equilibrium: } \vec{\tau}_{\text{net}} = \sum \vec{\tau}_i = 0 \implies \vec{L} = \text{constant}\]
+        </div>
+    </div>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Principle of Moments (Lever Rule)</div>
+        <div class="equation-box">
+            \[F_1 d_1 = F_2 d_2 \implies \text{Load} \times \text{Load Arm} = \text{Effort} \times \text{Effort Arm}\]
+            \[\text{Mechanical Advantage (M.A.)} = \frac{F_1}{F_2} = \frac{d_2}{d_1}\]
+        </div>
+    </div>
+
+    <!-- Section 7: Analogies Table -->
+    <h2>7. Translational vs Rotational Motion Analogies</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Translational Kinematics / Dynamics</th>
+                <th>Rotational Kinematics / Dynamics</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Linear Displacement (\(x\))</td><td>Angular Displacement (\(\theta\))</td></tr>
+            <tr><td>Linear Velocity (\(v = \frac{dx}{dt}\))</td><td>Angular Velocity (\(\omega = \frac{d\theta}{dt}\))</td></tr>
+            <tr><td>Linear Acceleration (\(a = \frac{dv}{dt}\))</td><td>Angular Acceleration (\(\alpha = \frac{d\omega}{dt}\))</td></tr>
+            <tr><td>Mass (\(M\))</td><td>Moment of Inertia (\(I\))</td></tr>
+            <tr><td>Force (\(F = M a\))</td><td>Torque (\(\tau = I \alpha\))</td></tr>
+            <tr><td>Work (\(dW = F \, dx\))</td><td>Work (\(dW = \tau \, d\theta\))</td></tr>
+            <tr><td>Kinetic Energy (\(K = \frac{1}{2} M v^2\))</td><td>Kinetic Energy (\(K = \frac{1}{2} I \omega^2\))</td></tr>
+            <tr><td>Power (\(P = F v\))</td><td>Power (\(P = \tau \omega\))</td></tr>
+            <tr><td>Linear Momentum (\(P = M v\))</td><td>Angular Momentum (\(L = I \omega\))</td></tr>
+        </tbody>
+    </table>
+
+    <!-- Section 8: Numerical Problem Solving Methods -->
+    <h2>8. Numerical Problem-Solving Methods</h2>
+
+    <div class="method-box">
+        <div class="method-title">Derivation Method: Deriving Rotational Kinematic Equation \(\omega^2 = \omega_0^2 + 2\alpha\theta\)</div>
+        <p>By definition of angular acceleration: \(\alpha = \frac{d\omega}{dt} = \frac{d\omega}{d\theta} \cdot \frac{d\theta}{dt} = \omega \frac{d\omega}{d\theta}\)</p>
+        <p>Rearranging variables for integration:</p>
+        <div class="step-flow">
+            \[\omega \, d\omega = \alpha \, d\theta\]
+            \[\int_{\omega_0}^{\omega} \omega \, d\omega = \alpha \int_{0}^{\theta} d\theta\]
+            \[\left[ \frac{\omega^2}{2} \right]_{\omega_0}^{\omega} = \alpha \theta \implies \frac{\omega^2 - \omega_0^2}{2} = \alpha \theta\]
+            \[\boxed{\omega^2 = \omega_0^2 + 2\alpha\theta}\]
+        </div>
+    </div>
+
+    <div class="method-box">
+        <div class="method-title">Numerical Solver: Flywheel Torque & Work Done Step-by-Step</div>
+        <div class="step-flow">
+            \(\text{Given Values} \rightarrow \text{Select Equation} \rightarrow \text{Substitute} \rightarrow \text{Calculate} \rightarrow \text{Final Answer}\)
+        </div>
+        <p><b>Problem Example:</b> A solid disc flywheel of mass \(M = 20\text{ kg}\) and radius \(R = 0.2\text{ m}\) is pulled with a tangentially applied force \(F = 25\text{ N}\). Find angular acceleration \(\alpha\) and kinetic energy gained after unwinding \(s = 2\text{ m}\) of string.</p>
+        <p><b>Step 1: Moment of Inertia of Disc:</b> \(I = \frac{1}{2} M R^2 = \frac{1}{2} (20)(0.2)^2 = 0.4\text{ kg m}^2\)</p>
+        <p><b>Step 2: Applied Torque:</b> \(\tau = F \times R = 25 \times 0.2 = 5\text{ N m}\)</p>
+        <p><b>Step 3: Angular Acceleration:</b> \(\alpha = \frac{\tau}{I} = \frac{5}{0.4} = \boxed{12.5\text{ rad s}^{-2}}\)</p>
+        <p><b>Step 4: Angular Displacement:</b> \(\theta = \frac{s}{R} = \frac{2}{0.2} = 10\text{ rad}\)</p>
+        <p><b>Step 5: Work-Energy Theorem Verification:</b> \(W = \tau \theta = 5 \times 10 = \boxed{50\text{ J}}\) (Equal to \(K_{\text{rot}} = \frac{1}{2} I \omega^2\)).</p>
+    </div>
+
+</div>
+
+</body>
+</html>

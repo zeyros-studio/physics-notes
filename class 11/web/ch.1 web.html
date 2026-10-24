@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Formulas & Methods - Class 11 Chapter 1</title>
+    
+    <!-- MathJax for LaTeX Equation Rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            startup: {
+                pageReady: () => {
+                    return MathJax.startup.defaultPageReady().then(() => {
+                        document.getElementById('status-badge').innerText = 'MathJax Ready';
+                        document.getElementById('status-badge').style.background = '#008C95';
+                    });
+                }
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- html2pdf.js library for direct client-side PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --navy: #17365D;
+            --teal: #008C95;
+            --formula-bg: #EAF3FB;
+            --amber: #F4B942;
+            --warning-bg: #FCE8E6;
+            --warning-border: #E57373;
+            --text: #252A34;
+            --page-bg: #FFFFFF;
+            --border: #D9E1EA;
+            --card-shadow: 0 2px 8px rgba(23, 54, 93, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text);
+            background-color: #525659;
+            line-height: 1.5;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Top Action Bar for UI */
+        .toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: var(--navy);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .toolbar h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .toolbar-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .status-badge {
+            background-color: var(--amber);
+            color: #000;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .btn {
+            background-color: var(--teal);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            background-color: #006e75;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid white;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        /* Printable Pages Layout */
+        .document-container {
+            margin-top: 80px;
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            background-color: var(--page-bg);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            page-break-after: always;
+            page-break-inside: avoid;
+        }
+
+        /* Header and Footer */
+        .page-header {
+            border-bottom: 2px solid var(--navy);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .page-header .doc-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--navy);
+            font-weight: bold;
+        }
+
+        .page-header .doc-subtitle {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .page-footer {
+            position: absolute;
+            bottom: 15mm;
+            left: 20mm;
+            right: 20mm;
+            border-top: 1px solid var(--border);
+            padding-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Cover Page Styling */
+        .cover-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 3px solid var(--navy);
+            padding: 25mm 20mm;
+        }
+
+        .cover-header {
+            text-align: center;
+        }
+
+        .cover-tag {
+            background-color: var(--navy);
+            color: white;
+            padding: 4px 12px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 15px;
+            border-radius: 2px;
+        }
+
+        .cover-title {
+            color: var(--navy);
+            font-size: 2.4rem;
+            line-height: 1.2;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .cover-subtitle {
+            color: var(--teal);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .cover-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+            background: var(--formula-bg);
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid var(--teal);
+        }
+
+        .meta-item {
+            font-size: 0.95rem;
+        }
+
+        .meta-label {
+            font-weight: bold;
+            color: var(--navy);
+        }
+
+        .cover-features {
+            margin: 30px 0;
+        }
+
+        .feature-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .feature-icon {
+            color: var(--teal);
+            font-weight: bold;
+        }
+
+        /* Content Styling */
+        .chapter-title {
+            color: var(--navy);
+            font-size: 1.6rem;
+            border-bottom: 2px solid var(--navy);
+            padding-bottom: 6px;
+            margin-bottom: 15px;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title {
+            color: var(--teal);
+            font-size: 1.15rem;
+            margin: 15px 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: var(--teal);
+            border-radius: 2px;
+        }
+
+        /* Revision Badges */
+        .badge {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .badge-must-know { background-color: var(--navy); color: white; }
+        .badge-exam { background-color: var(--teal); color: white; }
+        .badge-shortcut { background-color: var(--amber); color: #000; }
+        .badge-caution { background-color: var(--warning-bg); color: #c62828; border: 1px solid var(--warning-border); }
+
+        /* Formula Cards */
+        .formula-card {
+            background-color: var(--formula-bg);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--navy);
+            border-radius: 4px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            box-shadow: var(--card-shadow);
+            page-break-inside: avoid;
+        }
+
+        .formula-card.priority {
+            border-left-color: var(--teal);
+        }
+
+        .formula-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .topic-name {
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 0.95rem;
+        }
+
+        .formula-display {
+            text-align: center;
+            padding: 8px 0;
+            font-size: 1.1rem;
+            overflow-x: auto;
+        }
+
+        .formula-details {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4px;
+            font-size: 0.85rem;
+            margin-top: 6px;
+            border-top: 1px dashed var(--border);
+            padding-top: 6px;
+        }
+
+        .detail-row {
+            display: flex;
+            gap: 6px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--navy);
+            min-width: 90px;
+        }
+
+        /* Derivation & Method Blocks */
+        .method-block {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 12px;
+            background-color: #FAFAFA;
+            page-break-inside: avoid;
+        }
+
+        .method-title {
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .step-sequence {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.88rem;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .step-num {
+            background: var(--navy);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 15px 0;
+            font-size: 0.82rem;
+            page-break-inside: avoid;
+        }
+
+        .data-table th, .data-table td {
+            border: 1px solid var(--border);
+            padding: 6px 10px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: var(--navy);
+            color: white;
+            font-weight: 600;
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+
+        /* Warning & Caution Boxes */
+        .caution-box {
+            background-color: var(--warning-bg);
+            border-left: 4px solid #D32F2F;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.85rem;
+            page-break-inside: avoid;
+        }
+
+        .caution-title {
+            color: #C62828;
+            font-weight: bold;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Diagrams & SVG Layout */
+        .diagram-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            page-break-inside: avoid;
+        }
+
+        .diagram-box {
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        /* Print Override Styles */
+        @media print {
+            body {
+                background: white;
+            }
+            .toolbar {
+                display: none !important;
+            }
+            .document-container {
+                margin: 0;
+                padding: 0;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                width: 210mm;
+                height: 297mm;
+                padding: 15mm 15mm 20mm 15mm;
+                page-break-after: always;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Toolbar -->
+    <div class="toolbar">
+        <h1>Physics Formula & Methods PDF Engine</h1>
+        <div class="toolbar-actions">
+            <span class="status-badge" id="status-badge">Loading MathJax...</span>
+            <button class="btn btn-secondary" onclick="window.print()">
+                🖨️ Print / Native PDF
+            </button>
+            <button class="btn" onclick="downloadPDF()">
+                📥 Export A4 PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Printable Document Container -->
+    <div class="document-container" id="pdf-content">
+
+        <!-- PAGE 1: COVER PAGE -->
+        <div class="page cover-page">
+            <div class="cover-header">
+                <span class="cover-tag">Exam Revision Series</span>
+                <h1 class="cover-title">PHYSICS FORMULAS & METHODOLOGIES</h1>
+                <div class="cover-subtitle">NCERT Class 11 Physics — Chapter 1</div>
+            </div>
+
+            <div style="text-align: center; margin: 20px 0;">
+                <svg width="180" height="120" viewBox="0 0 200 130">
+                    <circle cx="100" cy="65" r="50" fill="none" stroke="#17365D" stroke-width="2"/>
+                    <ellipse cx="100" cy="65" rx="60" ry="20" fill="none" stroke="#008C95" stroke-width="2" transform="rotate(30, 100, 65)"/>
+                    <ellipse cx="100" cy="65" rx="60" ry="20" fill="none" stroke="#008C95" stroke-width="2" transform="rotate(-30, 100, 65)"/>
+                    <circle cx="100" cy="65" r="8" fill="#17365D"/>
+                </svg>
+            </div>
+
+            <div class="cover-meta-grid">
+                <div class="meta-item"><span class="meta-label">Subject:</span> Physics (Class 11)</div>
+                <div class="meta-item"><span class="meta-label">Chapter:</span> Units and Measurement</div>
+                <div class="meta-item"><span class="meta-label">Target Exams:</span> CBSE / JEE Main / NEET</div>
+                <div class="meta-item"><span class="meta-label">Standard:</span> Scientific Navy & Teal</div>
+            </div>
+
+            <div class="cover-features">
+                <h3 style="color: var(--navy); font-size: 1rem; margin-bottom: 10px;">Document Features:</h3>
+                <ul class="feature-list">
+                    <li class="feature-item"><span class="feature-icon">✓</span> Rigorous LaTeX Formula Typesetting</li>
+                    <li class="feature-item"><span class="feature-icon">✓</span> Precise Step-by-Step Derivations</li>
+                    <li class="feature-item"><span class="feature-icon">✓</span> Systematic Numerical Problem Frameworks</li>
+                    <li class="feature-item"><span class="feature-icon">✓</span> Common Calculation Error Warnings</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; font-size: 0.8rem; color: #666; border-top: 1px solid var(--border); padding-top: 10px;">
+                Strictly adheres to official NCERT Curriculum & SI (BIPM 2018) Standards
+            </div>
+        </div>
+
+        <!-- PAGE 2: CORE UNITS, ANGLES & SIGNIFICANT FIGURES -->
+        <div class="page">
+            <div class="page-header">
+                <span class="doc-title">Units and Measurement</span>
+                <span class="doc-subtitle">Section 1: Fundamental Units & Figures</span>
+            </div>
+
+            <h2 class="chapter-title">1. Fundamental Units & Angles</h2>
+
+            <!-- Supplementary Units Card -->
+            <div class="formula-card priority">
+                <div class="formula-card-header">
+                    <span class="topic-name">Plane Angle & Solid Angle</span>
+                    <span class="badge badge-must-know">MUST KNOW</span>
+                </div>
+                <div class="formula-display">
+                    $$d\theta = \frac{ds}{r} \text{ (rad)}, \quad d\Omega = \frac{dA}{r^2} \text{ (sr)}$$
+                </div>
+                <div class="formula-details">
+                    <div class="detail-row"><span class="detail-label">Symbols:</span> $ds$: Arc length, $r$: Radius, $dA$: Spherical surface area.</div>
+                    <div class="detail-row"><span class="detail-label">SI Units:</span> Radian ($\text{rad}$) for plane angle; Steradian ($\text{sr}$) for solid angle.</div>
+                    <div class="detail-row"><span class="detail-label">Conditions:</span> Both quantities are geometrically dimensionless ($[M^0L^0T^0]$).</div>
+                </div>
+            </div>
+
+            <!-- Geometric Diagrams -->
+            <div class="diagram-container">
+                <div class="diagram-box">
+                    <svg width="140" height="70" viewBox="0 0 160 80">
+                        <path d="M 20,60 L 140,20" stroke="#17365D" stroke-width="2"/>
+                        <path d="M 20,60 L 140,60" stroke="#17365D" stroke-width="2"/>
+                        <path d="M 120,26 A 100,100 0 0,1 120,60" fill="none" stroke="#008C95" stroke-width="2"/>
+                        <text x="50" y="52" font-size="12" fill="#17365D">dθ</text>
+                        <text x="70" y="75" font-size="11" fill="#252A34">r</text>
+                        <text x="132" y="45" font-size="11" fill="#008C95">ds</text>
+                    </svg>
+                    <div>(a) Plane Angle $d\theta = \frac{ds}{r}$</div>
+                </div>
+                <div class="diagram-box">
+                    <svg width="140" height="70" viewBox="0 0 160 80">
+                        <path d="M 20,40 L 130,15 L 130,65 Z" fill="#EAF3FB" stroke="#17365D" stroke-width="1.5"/>
+                        <ellipse cx="130" cy="40" rx="10" ry="25" fill="none" stroke="#008C95" stroke-width="2"/>
+                        <text x="45" y="43" font-size="12" fill="#17365D">dΩ</text>
+                        <text x="143" y="43" font-size="11" fill="#008C95">dA</text>
+                    </svg>
+                    <div>(b) Solid Angle $d\Omega = \frac{dA}{r^2}$</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Significant Figures Rules</h2>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Rule Condition</th>
+                        <th>Example</th>
+                        <th>Significant Digits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>All non-zero digits are significant.</td>
+                        <td>$2308 \text{ cm}$</td>
+                        <td>4 ($2, 3, 0, 8$)</td>
+                    </tr>
+                    <tr>
+                        <td>Zeros between two non-zero digits are significant.</td>
+                        <td>$2.008 \text{ m}$</td>
+                        <td>4 ($2, 0, 0, 8$)</td>
+                    </tr>
+                    <tr>
+                        <td>Leading zeros (left of first non-zero digit) are NOT significant.</td>
+                        <td>$0.0023 \text{ kg}$</td>
+                        <td>2 ($2, 3$)</td>
+                    </tr>
+                    <tr>
+                        <td>Trailing zeros in a number WITHOUT a decimal point are NOT significant.</td>
+                        <td>$12300 \text{ m}$</td>
+                        <td>3 ($1, 2, 3$)</td>
+                    </tr>
+                    <tr>
+                        <td>Trailing zeros in a number WITH a decimal point ARE significant.</td>
+                        <td>$3.500 \text{ g}$</td>
+                        <td>4 ($3, 5, 0, 0$)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="caution-box">
+                <div class="caution-title">⚠️ CAUTION: Unit Conversion Trap</div>
+                <div>Changing units does <strong>NOT</strong> alter the number of significant figures. Always express numbers in scientific notation ($a \times 10^b$) to avoid ambiguity.
+                <br>Example: $4.700 \text{ m} = 4.700 \times 10^2 \text{ cm} = 4.700 \times 10^{-3} \text{ km}$ (All retain 4 significant figures).</div>
+            </div>
+
+            <div class="page-footer">
+                <span>Class 11 Physics — NCERT Chapter 1</span>
+                <span>Page 2</span>
+            </div>
+        </div>
+
+        <!-- PAGE 3: ERROR ANALYSIS & DIMENSIONAL FORMULAS -->
+        <div class="page">
+            <div class="page-header">
+                <span class="doc-title">Units and Measurement</span>
+                <span class="doc-subtitle">Section 2: Error Analysis & Propagation</span>
+            </div>
+
+            <h2 class="chapter-title">2. Propagation of Errors</h2>
+
+            <!-- Formula Card: Combination of Errors -->
+            <div class="formula-card priority">
+                <div class="formula-card-header">
+                    <span class="topic-name">Error Combination Rules</span>
+                    <span class="badge badge-exam">EXAM FAVOURITE</span>
+                </div>
+                <div class="formula-display">
+                    $$\text{Addition/Subtraction: } Z = A \pm B \implies \Delta Z = \Delta A + \Delta B$$
+                    $$\text{Product/Division: } Z = A \cdot B \text{ or } \frac{A}{B} \implies \frac{\Delta Z}{Z} = \frac{\Delta A}{A} + \frac{\Delta B}{B}$$
+                    $$\text{Power Relation: } Z = A^p B^q / C^r \implies \frac{\Delta Z}{Z} = p\frac{\Delta A}{A} + q\frac{\Delta B}{B} + r\frac{\Delta C}{C}$$
+                </div>
+                <div class="formula-details">
+                    <div class="detail-row"><span class="detail-label">Absolute Error:</span> $\Delta Z$ is always additive to compute maximum possible error.</div>
+                    <div class="detail-row"><span class="detail-label">Percentage Error:</span> $\% \text{ Error in } Z = \left(\frac{\Delta Z}{Z}\right) \times 100\%$.</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Systematic Numerical-Solving Framework</h2>
+
+            <!-- Numerical Solving Method Box -->
+            <div class="method-block">
+                <div class="method-title">Methodology: Calculating Error in Derived Physical Quantities</div>
+                <div class="step-sequence">
+                    <div class="step-item">
+                        <span class="step-num">1</span>
+                        <span><strong>State Given Measurements:</strong> $Length \ (l) = 16.2 \pm 0.1 \text{ cm}$, $Breadth \ (b) = 10.1 \pm 0.1 \text{ cm}$.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">2</span>
+                        <span><strong>Compute Measured Area:</strong> $A = l \times b = 16.2 \times 10.1 = 163.62 \text{ cm}^2$.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">3</span>
+                        <span><strong>Apply Fractional Error Rule:</strong> $\frac{\Delta A}{A} = \frac{\Delta l}{l} + \frac{\Delta b}{b} = \frac{0.1}{16.2} + \frac{0.1}{10.1} \approx 0.00617 + 0.00990 = 0.01607$.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">4</span>
+                        <span><strong>Calculate Absolute Uncertainty:</strong> $\Delta A = A \times 0.01607 = 163.62 \times 0.01607 = 2.63 \text{ cm}^2 \approx 3 \text{ cm}^2$.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">5</span>
+                        <span><strong>Final Reported Result:</strong> $\mathbf{A = (164 \pm 3) \text{ cm}^2}$.</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Core Dimensional Formulas</h2>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Physical Quantity</th>
+                        <th>Defining Equation</th>
+                        <th>Dimensional Formula</th>
+                        <th>SI Unit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Density ($\rho$)</td>
+                        <td>$\rho = \frac{\text{Mass}}{\text{Volume}}$</td>
+                        <td>$[M^1 L^{-3} T^0]$</td>
+                        <td>$\text{kg m}^{-3}$</td>
+                    </tr>
+                    <tr>
+                        <td>Force ($F$)</td>
+                        <td>$F = m \cdot a$</td>
+                        <td>$[M^1 L^1 T^{-2}]$</td>
+                        <td>$\text{N} \ (\text{kg m s}^{-2})$</td>
+                    </tr>
+                    <tr>
+                        <td>Work / Energy ($E$)</td>
+                        <td>$W = F \cdot s$</td>
+                        <td>$[M^1 L^2 T^{-2}]$</td>
+                        <td>$\text{J} \ (\text{kg m}^2 \text{s}^{-2})$</td>
+                    </tr>
+                    <tr>
+                        <td>Pressure / Stress ($P$)</td>
+                        <td>$P = \frac{\text{Force}}{\text{Area}}$</td>
+                        <td>$[M^1 L^{-1} T^{-2}]$</td>
+                        <td>$\text{Pa} \ (\text{N m}^{-2})$</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="page-footer">
+                <span>Class 11 Physics — NCERT Chapter 1</span>
+                <span>Page 3</span>
+            </div>
+        </div>
+
+        <!-- PAGE 4: DIMENSIONAL ANALYSIS & DERIVATIONS -->
+        <div class="page">
+            <div class="page-header">
+                <span class="doc-title">Units and Measurement</span>
+                <span class="doc-subtitle">Section 3: Applications of Dimensional Analysis</span>
+            </div>
+
+            <h2 class="chapter-title">3. Dimensional Analysis & Applications</h2>
+
+            <div class="formula-card">
+                <div class="formula-card-header">
+                    <span class="topic-name">Principle of Homogeneity of Dimensions</span>
+                    <span class="badge badge-must-know">MUST KNOW</span>
+                </div>
+                <div class="formula-display">
+                    $$\text{If } A + B = C \implies [A] = [B] = [C]$$
+                </div>
+                <div class="formula-details">
+                    <div class="detail-row"><span class="detail-label">Rule:</span> Physical quantities can only be added or subtracted if they possess the same dimensions.</div>
+                    <div class="detail-row"><span class="detail-label">Note:</span> Arguments of exponential, trigonometric, and logarithmic functions must be dimensionless.</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Rigorous Derivation Method</h2>
+
+            <div class="method-block">
+                <div class="method-title">Derivation of Simple Pendulum Time Period ($T$) via Dimensional Analysis</div>
+                <div class="step-sequence">
+                    <div class="step-item">
+                        <span class="step-num">1</span>
+                        <span><strong>Assume Product Dependence:</strong> $T = k \cdot l^x \cdot g^y \cdot m^z$, where $k$ is a dimensionless constant.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">2</span>
+                        <span><strong>Substitute Dimensional Formulas:</strong> $[M^0 L^0 T^1] = [M^0 L^1 T^0]^x \cdot [M^0 L^1 T^{-2}]^y \cdot [M^1 L^0 T^0]^z$.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">3</span>
+                        <span><strong>Collect Exponents:</strong> $[M^0 L^0 T^1] = M^z \cdot L^{x+y} \cdot T^{-2y}$.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">4</span>
+                        <span><strong>Equate Exponents on Both Sides:</strong>
+                        <br>&bull; Mass exponent: $z = 0$
+                        <br>&bull; Time exponent: $-2y = 1 \implies y = -\frac{1}{2}$
+                        <br>&bull; Length exponent: $x + y = 0 \implies x = -y = \frac{1}{2}$</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">5</span>
+                        <span><strong>Substitute Exponents Back:</strong> $T = k \cdot l^{1/2} \cdot g^{-1/2} \cdot m^0 \implies \mathbf{T = k \sqrt{\frac{l}{g}}}$.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">6</span>
+                        <span><strong>Final Formula (Experimentally $k = 2\pi$):</strong> $\mathbf{\boxed{T = 2\pi \sqrt{\frac{l}{g}}}}$.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="caution-box">
+                <div class="caution-title">⚠️ Limitations of Dimensional Analysis</div>
+                <div>1. Cannot determine dimensionless constants ($k$, $2\pi$, $\sin\theta$).
+                <br>2. Fails for expressions containing sum/difference of terms (e.g., $s = ut + \frac{1}{2}at^2$).
+                <br>3. Cannot derive formulas with more than 3 independent physical variables.</div>
+            </div>
+
+            <div class="page-footer">
+                <span>Class 11 Physics — NCERT Chapter 1</span>
+                <span>Page 4</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Client-side PDF Generation Script -->
+    <script>
+        function downloadPDF() {
+            const statusBadge = document.getElementById('status-badge');
+            statusBadge.innerText = 'Generating PDF...';
+            statusBadge.style.background = '#F4B942';
+
+            const element = document.getElementById('pdf-content');
+            
+            const opt = {
+                margin:       0,
+                filename:     'Class_11_Physics_Units_and_Measurement_Notes.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Ensure MathJax has completed before generating PDF
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                MathJax.typesetPromise().then(() => {
+                    html2pdf().set(opt).from(element).save().then(() => {
+                        statusBadge.innerText = 'PDF Exported!';
+                        statusBadge.style.background = '#008C95';
+                    }).catch(err => {
+                        console.error('PDF Generation Error:', err);
+                        statusBadge.innerText = 'Export Failed';
+                        statusBadge.style.background = '#E57373';
+                    });
+                });
+            } else {
+                html2pdf().set(opt).from(element).save();
+            }
+        }
+    </script>
+</body>
+</html>

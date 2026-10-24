@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Formula & Methods: Laws of Motion (Class 11 / JEE / NEET)</title>
+    <!-- MathJax for LaTeX typesetting -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --navy: #17365D;
+            --teal: #008C95;
+            --formula-bg: #EAF3FB;
+            --amber: #F4B942;
+            --warning-bg: #FCE8E6;
+            --text: #252A34;
+            --page-bg: #FFFFFF;
+            --border: #D9E1EA;
+            --gray-text: #555E6D;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background-color: var(--page-bg);
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* A4 Page Container for Print & Screen */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 10mm auto;
+            background: var(--page-bg);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        @media print {
+            body {
+                background: none;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                page-break-after: always;
+                width: 100%;
+                padding: 15mm;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* Header Styling */
+        header {
+            border-bottom: 3px solid var(--navy);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .header-title h1 {
+            color: var(--navy);
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title p {
+            color: var(--gray-text);
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 6px;
+        }
+
+        .badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .badge.must-know { background: var(--navy); color: #fff; }
+        .badge.exam-fav { background: var(--teal); color: #fff; }
+        .badge.shortcut { background: var(--amber); color: #111; }
+        .badge.caution { background: var(--warning-bg); color: #c92a2a; border: 1px solid #f09595; }
+
+        /* Section Headings */
+        h2 {
+            color: var(--navy);
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            color: var(--teal);
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+
+        /* Formula Cards */
+        .formula-card {
+            background-color: var(--formula-bg);
+            border-left: 4px solid var(--teal);
+            border: 1px solid var(--border);
+            border-left-width: 4px;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            page-break-inside: avoid;
+        }
+
+        .formula-card.amber-border {
+            border-left-color: var(--amber);
+        }
+
+        .formula-card.red-border {
+            border-left-color: #c92a2a;
+            background-color: var(--warning-bg);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .card-title {
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 13px;
+        }
+
+        .equation-box {
+            font-size: 15px;
+            margin: 8px 0;
+            text-align: center;
+            color: var(--navy);
+        }
+
+        .card-details {
+            font-size: 12px;
+            color: var(--gray-text);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 10px;
+            margin-top: 6px;
+            border-top: 1px dashed var(--border);
+            padding-top: 6px;
+        }
+
+        .card-details span strong {
+            color: var(--text);
+        }
+
+        /* Grids & Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 6px 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--formula-bg);
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        /* Derivation & Method Steps */
+        .method-steps {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+
+        .method-steps ol {
+            padding-left: 20px;
+        }
+
+        .method-steps li {
+            margin-bottom: 4px;
+        }
+
+        /* Floating Print Button */
+        .floating-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .btn-print {
+            background-color: var(--navy);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: background 0.2s;
+        }
+
+        .btn-print:hover {
+            background-color: var(--teal);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 15mm;
+            left: 20mm;
+            right: 20mm;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--gray-text);
+            border-top: 1px solid var(--border);
+            padding-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-controls no-print">
+        <button class="btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    </div>
+
+    <!-- PAGE 1: Laws of Motion, Momentum & Newton's Laws -->
+    <div class="page">
+        <header>
+            <div class="header-title">
+                <h1>Chapter 4: Laws of Motion</h1>
+                <p>Advanced Physics Revision & Formula Masterclass | CBSE / JEE / NEET</p>
+            </div>
+            <div class="badge-container">
+                <span class="badge must-know">Must Know</span>
+                <span class="badge exam-fav">Exam Favourite</span>
+            </div>
+        </header>
+
+        <h2>1. Momentum & Newton's Second Law</h2>
+        <div class="formula-card">
+            <div class="card-header">
+                <span class="card-title">Linear Momentum & Newton's Second Law</span>
+                <span class="badge must-know">Fundamental</span>
+            </div>
+            <div class="equation-box">
+                $$\vec{p} = m\vec{v}, \quad \vec{F}_{\text{net}} = \frac{d\vec{p}}{dt} = m\vec{a}$$
+            </div>
+            <div class="card-details">
+                <span><strong>Symbols:</strong> $\vec{p}$ = momentum, $m$ = mass, $\vec{v}$ = velocity</span>
+                <span><strong>SI Unit:</strong> $\text{kg}\cdot\text{m/s}$ or $\text{N}\cdot\text{s}$[cite: 31]</span>
+                <span><strong>Component Form:</strong> $F_x = m a_x, \; F_y = m a_y, \; F_z = m a_z$[cite: 19]</span>
+                <span><strong>Key Rule:</strong> Force at an instant determines acceleration at that exact instant[cite: 19].</span>
+            </div>
+        </div>
+
+        <div class="formula-card amber-border">
+            <div class="card-header">
+                <span class="card-title">Impulse-Momentum Theorem</span>
+                <span class="badge shortcut">Shortcut</span>
+            </div>
+            <div class="equation-box">
+                $$\vec{J} = \int \vec{F} \, dt = \Delta \vec{p} = \vec{p}_{\text{final}} - \vec{p}_{\text{initial}}$$
+            </div>
+            <div class="card-details">
+                <span><strong>Application:</strong> Impulsive forces acting for very short durations[cite: 20].</span>
+                <span><strong>Rebound Wall Collision:</strong> Normal impulse for speed $u$ at angle $\theta$ is $J = 2mu\cos\theta$[cite: 21].</span>
+            </div>
+        </div>
+
+        <h2>2. Newton's Third Law & Conservation of Momentum</h2>
+        <div class="formula-card">
+            <div class="card-header">
+                <span class="card-title">Action-Reaction & Conservation Principle</span>
+                <span class="badge must-know">Must Know</span>
+            </div>
+            <div class="equation-box">
+                $$\vec{F}_{AB} = -\vec{F}_{BA}, \quad \sum \vec{p}_{\text{initial}} = \sum \vec{p}_{\text{final}} \text{ (for isolated system)}$$
+            </div>
+            <div class="card-details">
+                <span><strong>Crucial Note:</strong> Action and reaction act on <em>different</em> bodies; they never cancel each other out[cite: 21].</span>
+                <span><strong>Gun Recoil:</strong> $m_s v_s + m_g v_g = 0 \implies v_g = -\frac{m_s v_s}{m_g}$[cite: 21]</span>
+            </div>
+        </div>
+
+        <h2>3. Equilibrium of a Particle</h2>
+        <div class="formula-card">
+            <div class="card-header">
+                <span class="card-title">Concurrent Forces in Equilibrium</span>
+                <span class="badge exam-fav">Exam Favourite</span>
+            </div>
+            <div class="equation-box">
+                $$\sum \vec{F} = 0 \implies \sum F_x = 0, \; \sum F_y = 0, \; \sum F_z = 0$$
+            </div>
+            <div class="card-details">
+                <span><strong>Lami's Theorem (3 Forces):</strong> $\frac{F_1}{\sin\alpha} = \frac{F_2}{\sin\beta} = \frac{F_3}{\sin\gamma}$</span>
+                <span><strong>Triangle Law:</strong> Three forces in equilibrium form a closed triangle with cyclic arrows[cite: 22].</span>
+            </div>
+        </div>
+
+        <footer>
+            <span>Physics Formula & Methods — Chapter 4: Laws of Motion</span>
+            <span>Page 1 of 2</span>
+        </footer>
+    </div>
+
+    <!-- PAGE 2: Friction, Circular Motion & Problem Solving -->
+    <div class="page">
+        <header>
+            <div class="header-title">
+                <h1>Chapter 4: Laws of Motion (Contd.)</h1>
+                <p>Friction, Circular Motion, and Mechanics Problem-Solving Methods</p>
+            </div>
+            <div class="badge-container">
+                <span class="badge exam-fav">High Weightage</span>
+            </div>
+        </header>
+
+        <h2>4. Friction Laws & Mechanics</h2>
+        <div class="grid-2">
+            <div class="formula-card">
+                <div class="card-header">
+                    <span class="card-title">Static & Kinetic Friction</span>
+                </div>
+                <div class="equation-box">
+                    $$f_s \le \mu_s N, \quad f_k = \mu_k N$$
+                </div>
+                <div class="card-details" style="grid-template-columns: 1fr;">
+                    <span><strong>Angle of Repose ($\theta$):</strong> $\mu_s = \tan\theta_{\text{max}}$[cite: 25]</span>
+                    <span><strong>Note:</strong> $\mu_k < \mu_s$. Static friction is self-adjusting[cite: 26, 32].</span>
+                </div>
+            </div>
+
+            <div class="formula-card amber-border">
+                <div class="card-header">
+                    <span class="card-title">Elevator / Lift Apparent Weight</span>
+                </div>
+                <div class="equation-box">
+                    $$R = m(g \pm a)$$
+                </div>
+                <div class="card-details" style="grid-template-columns: 1fr;">
+                    <span><strong>Upward Accel ($+a$):</strong> $R = m(g+a)$ (Feels heavier)</span>
+                    <span><strong>Downward Accel ($-a$):</strong> $R = m(g-a)$ (Feels lighter)</span>
+                </div>
+            </div>
+        </div>
+
+        <h2>5. Circular Motion & Banking of Roads</h2>
+        <div class="formula-card">
+            <div class="card-header">
+                <span class="card-title">Vehicle on Banked Road with Friction</span>
+                <span class="badge exam-fav">Exam Favourite</span>
+            </div>
+            <div class="equation-box">
+                $$v_{\text{max}} = \sqrt{Rg \left(\frac{\mu_s + \tan\theta}{1 - \mu_s \tan\theta}\right)}, \quad v_0 = \sqrt{Rg \tan\theta} \text{ (Optimum Speed)}$$
+            </div>
+            <div class="card-details">
+                <span><strong>Level Road Max Speed:</strong> $v_{\text{max}} = \sqrt{\mu_s Rg}$[cite: 27]</span>
+                <span><strong>Centripetal Force:</strong> $F_c = \frac{mv^2}{R}$ directed towards the center[cite: 27].</span>
+            </div>
+        </div>
+
+        <h2>6. Systematic Problem-Solving Method (FBD Technique)</h2>
+        <div class="method-steps">
+            <strong>Standard 5-Step FBD Solution Framework:</strong>
+            <ol>
+                <li><strong>System Isolation:</strong> Choose a convenient part of the assembly as your system[cite: 29].</li>
+                <li><strong>Free-Body Diagram (FBD):</strong> Isolate the system and draw all external contact and field forces acting on it[cite: 30].</li>
+                <li><strong>Coordinate Axes:</strong> Set orthogonal axes (e.g., parallel and perpendicular to an incline).</li>
+                <li><strong>Apply Equations of Motion:</strong> Use $\sum F_x = m a_x$ and $\sum F_y = m a_y$ (or $\sum F = 0$ for equilibrium).</li>
+                <li><strong>Newton's Third Law pairing:</strong> Link internal forces across connected bodies (e.g., strings $T$, normal contacts $N$)[cite: 30].</li>
+            </ol>
+        </div>
+
+        <h2>7. Summary Table of Constants & Units</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Physical Quantity</th>
+                    <th>Symbol</th>
+                    <th>SI Unit</th>
+                    <th>Dimensional Formula</th>
+                </tr>
+            </thead>
+            <tbody>

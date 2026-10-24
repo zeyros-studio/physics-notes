@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thermal Properties of Matter - Formula & Methods Guide</title>
+    
+    <!-- MathJax for LaTeX typesetting -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            startup: {
+                pageReady: () => {
+                    return MathJax.startup.defaultPageReady().then(() => {
+                        document.getElementById('rendering-status').style.display = 'none';
+                    });
+                }
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Chart.js for thermal curves -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --navy: #17365D;
+            --teal: #008C95;
+            --formula-bg: #EAF3FB;
+            --amber: #F4B942;
+            --warning-bg: #FCE8E6;
+            --warning-border: #D9534F;
+            --text: #252A34;
+            --page-bg: #FFFFFF;
+            --border: #D9E1EA;
+            --card-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text);
+            background-color: #78909C;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+
+        /* Screen Controls Header */
+        .no-print-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 55px;
+            background-color: #0F2537;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .no-print-bar h1 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #FFFFFF;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-print {
+            background-color: var(--teal);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-print:hover {
+            background-color: #006B72;
+        }
+
+        #rendering-status {
+            background: var(--amber);
+            color: #000;
+            padding: 4px 10px;
+            font-size: 12px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        /* Document Container (A4 Setup) */
+        .document-container {
+            margin: 75px auto 40px auto;
+            width: 210mm;
+            background: var(--page-bg);
+            padding: 20mm 15mm 20mm 15mm;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        /* Cover & Header */
+        .doc-header {
+            border-bottom: 3px solid var(--navy);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .doc-title {
+            color: var(--navy);
+            font-size: 22px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .doc-subtitle {
+            color: var(--teal);
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .doc-meta {
+            text-align: right;
+            font-size: 11px;
+            color: #666;
+        }
+
+        /* Section & Chapter Titles */
+        .section-title {
+            background-color: var(--navy);
+            color: white;
+            padding: 6px 12px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 3px;
+            margin: 22px 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Badges & Revision Labels */
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            font-size: 9px;
+            font-weight: 700;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            vertical-align: middle;
+        }
+
+        .badge-must-know { background: var(--navy); color: white; }
+        .badge-fav { background: var(--teal); color: white; }
+        .badge-shortcut { background: var(--amber); color: #111; }
+        .badge-special { background: #6c757d; color: white; }
+        .badge-caution { background: var(--warning-border); color: white; }
+
+        /* Formula Card Design */
+        .formula-card {
+            background-color: var(--formula-bg);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--teal);
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 14px;
+            box-shadow: var(--card-shadow);
+            page-break-inside: avoid;
+        }
+
+        .formula-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 140, 149, 0.2);
+            padding-bottom: 4px;
+            margin-bottom: 8px;
+        }
+
+        .formula-card-title {
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 13px;
+        }
+
+        .formula-box {
+            background: #FFFFFF;
+            border: 1px solid #C4D9EC;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin: 8px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .card-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 11.5px;
+        }
+
+        .card-details-full {
+            grid-column: span 2;
+        }
+
+        .symbol-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .symbol-list li {
+            margin-bottom: 2px;
+        }
+
+        /* Caution & Warning Cards */
+        .warning-card {
+            background-color: var(--warning-bg);
+            border: 1px solid #F5C6CB;
+            border-left: 4px solid var(--warning-border);
+            border-radius: 4px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            font-size: 11.5px;
+            page-break-inside: avoid;
+        }
+
+        .warning-title {
+            color: var(--warning-border);
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Derivation & Numerical Method Boxes */
+        .method-block {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+            background: #FAFCFE;
+            page-break-inside: avoid;
+        }
+
+        .method-title {
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 12px;
+            margin-bottom: 6px;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 4px;
+        }
+
+        .step-sequence {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 11.5px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .step-num {
+            background: var(--navy);
+            color: white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        /* Flow Arrow Workflow */
+        .workflow-arrow {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            background: #FFF;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 11px;
+            margin-top: 6px;
+        }
+
+        .wf-step {
+            background: var(--formula-bg);
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .wf-arrow {
+            color: var(--teal);
+            font-weight: bold;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 14px 0;
+            font-size: 11px;
+            page-break-inside: avoid;
+        }
+
+        .data-table th {
+            background-color: var(--navy);
+            color: white;
+            text-align: left;
+            padding: 6px 8px;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 5px 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+
+        /* Two Column Grid for Graphs & Tables */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .chart-box {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 8px;
+            background: #FFFFFF;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+
+        .chart-box canvas {
+            max-width: 100%;
+            max-height: 170px;
+        }
+
+        .chart-caption {
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--navy);
+            margin-top: 4px;
+        }
+
+        /* SVG Graph Styling */
+        .svg-graph {
+            width: 100%;
+            height: 160px;
+            background: #FFF;
+        }
+
+        /* Footer / Page Numbering */
+        .doc-footer {
+            margin-top: 30px;
+            border-top: 1px solid var(--border);
+            padding-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #777;
+        }
+
+        /* PRINT STYLESHEET */
+        @media print {
+            body {
+                background: white;
+                font-size: 11.5pt;
+            }
+
+            .no-print-bar {
+                display: none !important;
+            }
+
+            .document-container {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 12mm 12mm 12mm 12mm;
+            }
+
+            .section-title {
+                background-color: var(--navy) !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .formula-card {
+                background-color: var(--formula-bg) !important;
+                border-left-color: var(--teal) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                page-break-inside: avoid;
+            }
+
+            .warning-card {
+                background-color: var(--warning-bg) !important;
+                border-left-color: var(--warning-border) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                page-break-inside: avoid;
+            }
+
+            .badge {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .data-table th {
+                background-color: var(--navy) !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .data-table tr:nth-child(even) {
+                background-color: #F8FAFC !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fixed Interactive Top Bar -->
+    <div class="no-print-bar">
+        <h1>CBSE Class 11 Physics — Quick Revision Notes</h1>
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span id="rendering-status">Rendering MathJax...</span>
+            <button class="btn-print" onclick="prepareAndPrint()">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                    <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3h8z"/>
+                </svg>
+                Export to A4 PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Printable Document -->
+    <div class="document-container">
+
+        <!-- Document Header -->
+        <header class="doc-header">
+            <div>
+                <div class="doc-title">Thermal Properties of Matter</div>
+                <div class="doc-subtitle">NCERT Class 11 Physics — Formula, Derivations & Solving Methods</div>
+            </div>
+            <div class="doc-meta">
+                <strong>Exam Revision Sheet</strong><br>
+                Target: CBSE / JEE Main / NEET<br>
+                Theme: Scientific Navy & Teal
+            </div>
+        </header>
+
+        <!-- SECTION 1: TEMPERATURE & SCALES -->
+        <div class="section-title">
+            1. Temperature Scales & Gas Laws
+            <span class="badge badge-must-know">Core Basics</span>
+        </div>
+
+        <div class="formula-card">
+            <div class="formula-card-header">
+                <span class="formula-card-title">Temperature Scale Conversion Relation</span>
+                <span class="badge badge-fav">EXAM FAVOURITE</span>
+            </div>
+            <div class="formula-box">
+                $$\frac{t_F - 32}{180} = \frac{t_C}{100} = \frac{T - 273.15}{100}$$
+            </div>
+            <div class="card-details">
+                <div>
+                    <strong>Symbols:</strong>
+                    <ul class="symbol-list">
+                        <li>$t_C$: Temperature in Celsius ($^\circ\text{C}$)</li>
+                        <li>$t_F$: Temperature in Fahrenheit ($^\circ\text{F}$)</li>
+                        <li>$T$: Absolute Temperature in Kelvin ($\text{K}$)</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>Key Constants & Relations:</strong>
+                    <ul class="symbol-list">
+                        <li>$1$ Division on $t_C$ scale = $1.8$ Divisions on $t_F$ scale</li>
+                        <li>Absolute Zero: $0\text{ K} = -273.15^\circ\text{C} = -459.67^\circ\text{F}$</li>
+                        <li>Triple Point of Water: $T_{TP} = 273.16\text{ K} = 0.01^\circ\text{C}$</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2col">
+            <div class="formula-card" style="margin-bottom:0;">
+                <div class="formula-card-header">
+                    <span class="formula-card-title">Ideal Gas Equation & Vol. Expansivity</span>
+                </div>
+                <div class="formula-box">
+                    $$PV = \mu RT \implies \alpha_V = \frac{1}{T}$$
+                </div>
+                <div style="font-size: 11px;">
+                    <strong>Derivation for Ideal Gas $\alpha_V$:</strong><br>
+                    At constant pressure $P$: $P\Delta V = \mu R \Delta T$<br>
+                    Divide by $PV = \mu RT \implies \frac{\Delta V}{V} = \frac{\Delta T}{T}$<br>
+                    $$\alpha_V = \frac{1}{V}\frac{\Delta V}{\Delta T} = \frac{1}{T} \quad (\text{At } 0^\circ\text{C}, \alpha_V \approx 3.67 \times 10^{-3}\text{ K}^{-1})$$
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <canvas id="gasLawChart"></canvas>
+                <div class="chart-caption">Fig 1.1: $P$ vs $T$ Linear Extrapolation to Absolute Zero</div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: THERMAL EXPANSION -->
+        <div class="section-title">
+            2. Thermal Expansion in Solids & Liquids
+            <span class="badge badge-must-know">MUST KNOW</span>
+        </div>
+
+        <div class="formula-card">
+            <div class="formula-card-header">
+                <span class="formula-card-title">Coefficients of Expansion ($\alpha_l, \alpha_a, \alpha_v$)</span>
+            </div>
+            <div class="formula-box">
+                $$\Delta l = \alpha_l l \Delta T, \quad \Delta A = \alpha_a A \Delta T, \quad \Delta V = \alpha_v V \Delta T$$
+                $$\alpha_l : \alpha_a : \alpha_v = 1 : 2 : 3 \quad \implies \quad \alpha_a = 2\alpha_l, \quad \alpha_v = 3\alpha_l$$
+            </div>
+            <div class="card-details">
+                <div>
+                    <strong>SI Units:</strong> $\text{K}^{-1}$ or $(^\circ\text{C})^{-1}$<br>
+                    <strong>Thermal Stress in Fixed Rod:</strong>
+                    $$\text{Stress} = \frac{F}{A} = Y \left(\frac{\Delta l}{l}\right) = Y \alpha_l \Delta T$$
+                    $$\text{Compressive Force: } F = A Y \alpha_l \Delta T$$
+                </div>
+                <div>
+                    <strong>Density Variation with Temp:</strong>
+                    $$\rho' = \frac{\rho}{1 + \alpha_v \Delta T} \approx \rho(1 - \alpha_v \Delta T)$$
+                    <em>(Valid for $\alpha_v \Delta T \ll 1$)</em>
+                </div>
+            </div>
+        </div>
+
+        <div class="method-block">
+            <div class="method-title">Proof / Derivation: Relationship $\alpha_v = 3\alpha_l$ for Isotropic Solids</div>
+            <div class="step-sequence">
+                <div class="step-item">
+                    <span class="step-num">1</span>
+                    <span>Consider a cube of initial length $l$. Expanded length $l' = l + \Delta l = l(1 + \alpha_l \Delta T)$.</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-num">2</span>
+                    <span>New Volume $V' = (l')^3 = l^3 (1 + \alpha_l \Delta T)^3 = V (1 + 3\alpha_l \Delta T + 3\alpha_l^2 \Delta T^2 + \alpha_l^3 \Delta T^3)$.</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-num">3</span>
+                    <span>Since $\alpha_l \sim 10^{-5}\text{ K}^{-1}$, terms containing $\alpha_l^2$ and $\alpha_l^3$ are negligible.</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-num">4</span>
+                    <span>$\Delta V = V' - V \approx 3\alpha_l V \Delta T$. Comparing with $\Delta V = \alpha_v V \Delta T \implies \mathbf{\alpha_v = 3\alpha_l}$.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="warning-card">
+            <div class="warning-title">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+                CAUTION: Anomalous Expansion of Water
+            </div>
+            Between $0^\circ\text{C}$ and $4^\circ\text{C}$, water <strong>contracts</strong> on heating ($\alpha_v$ is negative). Water has <strong>maximum density</strong> at $4^\circ\text{C}$ ($\rho_{\max} = 1000\text{ kg/m}^3$). This allows aquatic life to survive at the bottom of frozen lakes.
+        </div>
+
+        <!-- PAGE BREAK FOR CLEAN LAYOUT -->
+        <div class="page-break"></div>
+
+        <!-- SECTION 3: CALORIMETRY & PHASE CHANGE -->
+        <div class="section-title">
+            3. Calorimetry & Change of State
+            <span class="badge badge-must-know">MUST KNOW</span>
+        </div>
+
+        <div class="formula-card">
+            <div class="formula-card-header">
+                <span class="formula-card-title">Heat Capacity, Specific Heat & Latent Heat</span>
+            </div>
+            <div class="formula-box">
+                $$\Delta Q = m s \Delta T, \quad \Delta Q = \mu C \Delta T, \quad \Delta Q = m L$$
+            </div>
+            <div class="card-details">
+                <div>
+                    <strong>Specific Heat Capacity ($s$):</strong>
+                    $$s = \frac{1}{m}\frac{\Delta Q}{\Delta T} \quad [\text{SI: J kg}^{-1}\text{K}^{-1}]$$
+                    $s_{\text{water}} = 4186\text{ J kg}^{-1}\text{K}^{-1} \approx 1\text{ cal g}^{-1}(^\circ\text{C})^{-1}$
+                </div>
+                <div>
+                    <strong>Latent Heat ($L$):</strong>
+                    $$L = \frac{Q}{m} \quad [\text{SI: J kg}^{-1}]$$
+                    $L_f \text{ (Ice)} = 3.33 \times 10^5\text{ J/kg } (80\text{ cal/g})$<br>
+                    $L_v \text{ (Steam)} = 22.6 \times 10^5\text{ J/kg } (540\text{ cal/g})$
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2col">
+            <div class="method-block" style="margin-bottom:0;">
+                <div class="method-title">Numerical Solving Workflow: Principle of Calorimetry</div>
+                <div style="font-size: 11px;">
+                    $$\text{Heat Lost by Hot Bodies} = \text{Heat Gained by Cold Bodies}$$
+                </div>
+                <div class="workflow-arrow">
+                    <span class="wf-step">Identify Phases</span>
+                    <span class="wf-arrow">&rightarrow;</span>
+                    <span class="wf-step">Check Temp Bounds</span>
+                    <span class="wf-arrow">&rightarrow;</span>
+                    <span class="wf-step">Include $mL$ if Phase Changes</span>
+                    <span class="wf-arrow">&rightarrow;</span>
+                    <span class="wf-step">Equate $Q_{\text{lost}} = Q_{\text{gained}}$</span>
+                </div>
+                <div style="font-size: 10.5px; margin-top: 6px; color: #444;">
+                    <strong>Note:</strong> Always verify if available heat from hot body is sufficient to melt/vaporize the cold body completely.
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <canvas id="heatingCurveChart"></canvas>
+                <div class="chart-caption">Fig 3.1: Heating Curve of Water ($T$ vs $Q$)</div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: HEAT TRANSFER MECHANISMS -->
+        <div class="section-title">
+            4. Heat Transfer: Conduction, Convection & Radiation
+            <span class="badge badge-fav">EXAM FAVOURITE</span>
+        </div>
+
+        <div class="formula-card">
+            <div class="formula-card-header">
+                <span class="formula-card-title">Thermal Conduction (Fourier's Law) & Thermal Resistance</span>
+            </div>
+            <div class="formula-box">
+                $$H = \frac{dQ}{dt} = K A \frac{T_C - T_D}{L} = \frac{\Delta T}{R_{th}} \quad \text{where} \quad R_{th} = \frac{L}{KA}$$
+            </div>
+            <div class="card-details card-details-full">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Combination Type</th>
+                            <th>Equivalent Thermal Resistance ($R_{th,eq}$)</th>
+                            <th>Equivalent Conductivity ($K_{eq}$)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Series Combination</strong> ($L = L_1 + L_2, A_1=A_2$)</td>
+                            <td>$R_{eq} = R_1 + R_2 = \frac{L_1}{K_1 A} + \frac{L_2}{K_2 A}$</td>
+                            <td>$K_{eq} = \frac{L_1 + L_2}{\frac{L_1}{K_1} + \frac{L_2}{K_2}} \quad \left[\text{If } L_1=L_2: K_{eq} = \frac{2K_1 K_2}{K_1 + K_2}\right]$</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Parallel Combination</strong> ($A = A_1 + A_2, L_1=L_2$)</td>
+                            <td>$\frac{1}{R_{eq}} = \frac{1}{R_1} + \frac{1}{R_2}$</td>
+                            <td>$K_{eq} = \frac{K_1 A_1 + K_2 A_2}{A_1 + A_2} \quad \left[\text{If } A_1=A_2: K_{eq} = \frac{K_1 + K_2}{2}\right]$</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="formula-card">
+            <div class="formula-card-header">
+                <span class="formula-card-title">Radiation Laws: Stefan-Boltzmann & Wien's Displacement Law</span>
+            </div>
+            <div class="formula-box">
+                $$H = e \sigma A T^4, \quad H_{\text{net}} = e \sigma A (T^4 - T_s^4), \quad \lambda_m T = b$$
+            </div>
+            <div class="card-details">
+                <div>
+                    <strong>Stefan-Boltzmann Law:</strong><br>
+                    $\sigma = 5.67 \times 10^{-8}\text{ W m}^{-2}\text{K}^{-4}$ (Stefan's Constant)<br>
+                    $e = \text{Emissivity } (0 \le e \le 1); \quad e = 1 \text{ for Blackbody}$
+                </div>
+                <div>
+                    <strong>Wien's Displacement Law:</strong><br>
+                    $b = 2.9 \times 10^{-3}\text{ m K}$ (Wien's Constant)<br>
+                    $\lambda_m \propto \frac{1}{T} \implies \text{As } T \uparrow, \text{ Peak } \lambda_m \text{ shifts to shorter } \lambda$.
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: NEWTON'S LAW OF COOLING -->
+        <div class="section-title">
+            5. Newton's Law of Cooling
+            <span class="badge badge-shortcut">SHORTCUT METHODS</span>
+        </div>
+
+        <div class="formula-card">
+            <div class="formula-card-header">
+                <span class="formula-card-title">Differential & Approximate Forms</span>
+            </div>
+            <div class="formula-box">
+                $$\text{Exact: } \frac{dT}{dt} = -k(T - T_s) \implies \ln\left(\frac{T_2 - T_s}{T_1 - T_s}\right) = -kt$$
+                $$\text{Approximate (For Numericals): } \frac{T_1 - T_2}{t} = K \left( \frac{T_1 + T_2}{2} - T_s \right)$$
+            </div>
+            <div class="card-details">
+                <div>
+                    <strong>Conditions for Validity:</strong>
+                    <ul class="symbol-list">
+                        <li>1. Temperature difference $(T - T_s)$ must be small ($\lesssim 30^\circ\text{C}$).</li>
+                        <li>2. Heat loss occurs predominantly via radiation & forced convection.</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>Linear Graph Verification:</strong><br>
+                    Plot of $\ln(T - T_s)$ vs time $t$ gives a <strong>straight line</strong> with slope $=-k$.
+                </div>
+            </div>
+        </div>
+
+        <div class="method-block">
+            <div class="method-title">Step-by-Step Solved Exam Numerical (Newton's Law of Cooling)</div>
+            <div style="font-size: 11px;">
+                <strong>Problem:</strong> A body cools from $80^\circ\text{C}$ to $50^\circ\text{C}$ in $5\text{ minutes}$ in a room at $20^\circ\text{C}$. Calculate the time taken to cool from $60^\circ\text{C}$ to $30^\circ\text{C}$.
+            </div>
+            <div class="step-sequence" style="margin-top: 6px;">
+                <div class="step-item">
+                    <span class="step-num">1</span>
+                    <span><strong>Case 1:</strong> $T_1 = 80^\circ\text{C}, T_2 = 50^\circ\text{C}, T_s = 20^\circ\text{C}, t = 5\text{ min}$.<br>
+                    Average $T_{\text{avg}} = \frac{80+50}{2} = 65^\circ\text{C}$.<br>
+                    Formula: $\frac{80 - 50}{5} = K(65 - 20) \implies \frac{30}{5} = K(45) \implies K = \frac{6}{45} = \frac{2}{9}\text{ min}^{-1}$.</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-num">2</span>
+                    <span><strong>Case 2:</strong> $T_1 = 60^\circ\text{C}, T_2 = 30^\circ\text{C}, T_s = 20^\circ\text{C}$.<br>
+                    Average $T_{\text{avg}}' = \frac{60+30}{2} = 45^\circ\text{C}$.<br>
+                    Formula: $\frac{60 - 30}{t'} = K(45 - 20) \implies \frac{30}{t'} = \left(\frac{2}{9}\right)(25)$.</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-num">3</span>
+                    <span><strong>Solve for $t'$:</strong> $t' = \frac{30 \times 9}{50} = \mathbf{5.4\text{ minutes}} = \mathbf{5\text{ min } 24\text{ s}}$.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 6: SUMMARY TABLE OF UNITS & CONSTANTS -->
+        <div class="section-title">
+            6. Physical Constants & Dimensional Formulas
+            <span class="badge badge-must-know">MUST KNOW</span>
+        </div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Physical Quantity</th>
+                    <th>Symbol</th>
+                    <th>SI Unit</th>
+                    <th>Dimensional Formula</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Thermal Conductivity</td>
+                    <td>$K$</td>
+                    <td>$\text{W m}^{-1}\text{K}^{-1} \text{ or } \text{J s}^{-1}\text{m}^{-1}\text{K}^{-1}$</td>
+                    <td>$[\text{M L T}^{-3} \text{K}^{-1}]$</td>
+                </tr>
+                <tr>
+                    <td>Specific Heat Capacity</td>
+                    <td>$s$</td>
+                    <td>$\text{J kg}^{-1}\text{K}^{-1}$</td>
+                    <td>$[\text{L}^2 \text{T}^{-2} \text{K}^{-1}]$</td>
+                </tr>
+                <tr>
+                    <td>Molar Specific Heat</td>
+                    <td>$C$</td>
+                    <td>$\text{J mol}^{-1}\text{K}^{-1}$</td>
+                    <td>$[\text{M L}^2 \text{T}^{-2} \text{K}^{-1} \text{mol}^{-1}]$</td>
+                </tr>
+                <tr>
+                    <td>Latent Heat</td>
+                    <td>$L$</td>
+                    <td>$\text{J kg}^{-1}$</td>
+                    <td>$[\text{L}^2 \text{T}^{-2}]$</td>
+                </tr>
+                <tr>
+                    <td>Stefan-Boltzmann Constant</td>
+                    <td>$\sigma$</td>
+                    <td>$\text{W m}^{-2}\text{K}^{-4}$</td>
+                    <td>$[\text{M T}^{-3} \text{K}^{-4}]$</td>
+                </tr>
+                <tr>
+                    <td>Wien's Constant</td>
+                    <td>$b$</td>
+                    <td>$\text{m K}$</td>
+                    <td>$[\text{L K}]$</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Document Footer -->
+        <footer class="doc-footer">
+            <span>Class 11 Physics Revision Series — Scientific Navy & Teal Theme</span>
+            <span>Rendered via MathJax & Chart.js</span>
+            <span>Page 1 of 1 (A4 Compact)</span>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript Module -->
+    <script>
+        // Chart 1: Ideal Gas Law Pressure vs Temperature Extrapolation
+        window.addEventListener('load', function() {
+            const ctx1 = document.getElementById('gasLawChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['-273.15°C (0K)', '-100°C', '0°C', '100°C', '200°C'],
+                    datasets: [{
+                        label: 'Gas A (Low Density)',
+                        data: [0, 63, 100, 137, 173],
+                        borderColor: '#17365D',
+                        backgroundColor: '#17365D',
+                        borderWidth: 2,
+                        fill: false,
+                        pointRadius: 3
+                    }, {
+                        label: 'Gas B',
+                        data: [0, 45, 75, 105, 135],
+                        borderColor: '#008C95',
+                        backgroundColor: '#008C95',
+                        borderWidth: 1.5,
+                        borderDash: [4, 4],
+                        fill: false,
+                        pointRadius: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { font: { size: 9 } } }
+                    },
+                    scales: {
+                        x: { title: { display: true, text: 'Temperature (°C)', font: { size: 9 } }, ticks: { font: { size: 8 } } },
+                        y: { title: { display: true, text: 'Pressure P', font: { size: 9 } }, ticks: { font: { size: 8 } } }
+                    }
+                }
+            });
+
+            // Chart 2: Heating Curve of Water
+            const ctx2 = document.getElementById('heatingCurveChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: ['Ice (-10°)', 'Ice (0°)', 'Water (0°)', 'Water (100°)', 'Steam (100°)'],
+                    datasets: [{
+                        label: 'Temperature T (°C)',
+                        data: [-10, 0, 0, 100, 100],
+                        borderColor: '#008C95',
+                        backgroundColor: '#EAF3FB',
+                        borderWidth: 2,
+                        fill: true,
+                        pointBackgroundColor: '#17365D',
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { title: { display: true, text: 'Heat Added Q', font: { size: 9 } }, ticks: { font: { size: 8 } } },
+                        y: { title: { display: true, text: 'Temperature (°C)', font: { size: 9 } }, ticks: { font: { size: 8 } } }
+                    }
+                }
+            });
+        });
+
+        // Safe Print Execution Function
+        function prepareAndPrint() {
+            // Ensure MathJax typesetting is complete before launching print window
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                MathJax.typesetPromise().then(() => {
+                    setTimeout(() => {
+                        window.print();
+                    }, 300);
+                });
+            } else {
+                window.print();
+            }
+        }
+    </script>
+</body>
+</html>

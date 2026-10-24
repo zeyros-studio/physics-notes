@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Formula & Methods: Motion in a Straight Line</title>
+
+    <!-- MathJax Configuration and Script -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            },
+            startup: {
+                pageReady: () => {
+                    return MathJax.startup.defaultPageReady().then(() => {
+                        document.body.classList.add('mathjax-rendered');
+                        console.log('MathJax rendering complete.');
+                    });
+                }
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+        /* ==========================================================================
+           COLOR PALETTE & CSS VARIABLES (Scientific Navy & Teal Theme)
+           ========================================================================== */
+        :root {
+            --navy: #17365D;          /* Chapter titles and section headings */
+            --teal: #008C95;          /* Important formulas & key results */
+            --formula-bg: #EAF3FB;    /* Formula card backgrounds */
+            --amber: #F4B942;         /* Shortcuts & exam tips */
+            --warning-bg: #FCE8E6;    /* Errors, warnings & caution boxes */
+            --text: #252A34;          /* Charcoal body text */
+            --page-bg: #FFFFFF;       /* Background */
+            --border: #D9E1EA;        /* Cool grey borders */
+            --dark-red: #A82222;      /* Warning text color */
+            --dark-amber: #946000;    /* Amber text color */
+        }
+
+        /* ==========================================================================
+           GLOBAL & PAGE SETUP
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text);
+            background-color: #707070;
+            line-height: 1.5;
+            font-size: 13px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Print preview layout container */
+        .page-container {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            background-color: var(--page-bg);
+            padding: 18mm 18mm 20mm 18mm;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Controls / PDF Export Button */
+        .no-print-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-export {
+            background-color: var(--teal);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 140, 149, 0.3);
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn-export:hover {
+            background-color: #007077;
+            transform: translateY(-1px);
+        }
+
+        /* ==========================================================================
+           TYPOGRAPHY & HEADINGS
+           ========================================================================== */
+        .header-banner {
+            border-bottom: 3px solid var(--navy);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .chapter-tag {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        h1.chapter-title {
+            color: var(--navy);
+            font-size: 22px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-top: 2px;
+        }
+
+        h2.section-title {
+            color: var(--navy);
+            font-size: 15px;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            border-left: 4px solid var(--teal);
+            padding-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            break-after: avoid;
+        }
+
+        /* ==========================================================================
+           BADGES & TAGS
+           ========================================================================== */
+        .badge {
+            display: inline-block;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .badge-must-know { background-color: var(--navy); color: white; }
+        .badge-favourite { background-color: var(--teal); color: white; }
+        .badge-shortcut { background-color: var(--amber); color: #252A34; }
+        .badge-caution { background-color: var(--dark-red); color: white; }
+
+        /* ==========================================================================
+           FORMULA CARDS
+           ========================================================================== */
+        .formula-card {
+            background-color: var(--formula-bg);
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--teal);
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-bottom: 12px;
+            break-inside: avoid;
+        }
+
+        .formula-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .formula-card .topic-name {
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--navy);
+        }
+
+        .formula-card .formula-main {
+            text-align: center;
+            padding: 6px 0;
+            margin: 4px 0;
+            background-color: #FFFFFF;
+            border: 1px dashed var(--border);
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        .formula-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            font-size: 11.5px;
+            margin-top: 6px;
+        }
+
+        .formula-details-full {
+            grid-column: span 2;
+        }
+
+        .field-label {
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        /* ==========================================================================
+           DERIVATION & METHOD BLOCKS
+           ========================================================================== */
+        .derivation-block, .method-block {
+            background-color: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            break-inside: avoid;
+        }
+
+        .derivation-title, .method-title {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px;
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            margin-bottom: 6px;
+            position: relative;
+            padding-left: 22px;
+            font-size: 11.5px;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 1px;
+            background-color: var(--navy);
+            color: white;
+            font-size: 9px;
+            font-weight: 700;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .method-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--formula-bg);
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 6px 0;
+            text-align: center;
+        }
+
+        .method-flow .arrow {
+            color: var(--teal);
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        /* ==========================================================================
+           CAUTION & SHORTCUT CALLOUTS
+           ========================================================================== */
+        .callout-box {
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 11.5px;
+            margin-bottom: 10px;
+            break-inside: avoid;
+        }
+
+        .callout-caution {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--dark-red);
+            color: #5c1111;
+        }
+
+        .callout-shortcut {
+            background-color: #FFF9E6;
+            border-left: 4px solid var(--amber);
+            color: var(--dark-amber);
+        }
+
+        .callout-title {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ==========================================================================
+           TABLES & GRAPHS
+           ========================================================================== */
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin: 10px 0;
+            break-inside: avoid;
+        }
+
+        table.data-table th {
+            background-color: var(--navy);
+            color: white;
+            text-align: left;
+            padding: 6px 8px;
+            font-weight: 600;
+        }
+
+        table.data-table td {
+            border: 1px solid var(--border);
+            padding: 5px 8px;
+        }
+
+        table.data-table tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+
+        .graph-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+            break-inside: avoid;
+        }
+
+        .graph-card {
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 8px;
+            background: #FFFFFF;
+            text-align: center;
+        }
+
+        .graph-card svg {
+            width: 100%;
+            height: 120px;
+        }
+
+        .graph-caption {
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--navy);
+            margin-top: 4px;
+        }
+
+        /* ==========================================================================
+           FOOTER
+           ========================================================================== */
+        .page-footer {
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #718096;
+        }
+
+        /* ==========================================================================
+           PRINT & A4 STRICT FORMATTING
+           ========================================================================== */
+        @media print {
+            body {
+                background-color: #FFFFFF;
+            }
+
+            .no-print-controls {
+                display: none !important;
+            }
+
+            .page-container {
+                width: 100%;
+                margin: 0;
+                padding: 12mm 15mm 15mm 15mm;
+                box-shadow: none;
+                page-break-after: always;
+            }
+
+            .page-container:last-child {
+                page-break-after: avoid;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Controls Floating Toolbar -->
+    <div class="no-print-controls">
+        <button class="btn-export" onclick="window.print()">Export to PDF / Print</button>
+    </div>
+
+    <!-- PAGE 1: CORE KINEMATICS & DERIVATIONS -->
+    <div class="page-container">
+        <div class="header-banner">
+            <div>
+                <span class="chapter-tag">CBSE Class 11 / JEE Main / NEET Physics</span>
+                <h1 class="chapter-title">Chapter 2: Motion in a Straight Line</h1>
+            </div>
+            <div style="text-align: right;">
+                <span style="font-weight:700; color:var(--teal); font-size:12px;">FORMULA & METHOD SHEET</span>
+            </div>
+        </div>
+
+        <!-- Section 1: Fundamental Kinematic Variables -->
+        <h2 class="section-title">1. Fundamental Kinematic Parameters</h2>
+
+        <div class="formula-card">
+            <div class="card-header">
+                <span class="topic-name">Instantaneous Velocity & Acceleration</span>
+                <div>
+                    <span class="badge badge-must-know">MUST KNOW</span>
+                </div>
+            </div>
+            <div class="formula-main">
+                $$v = \lim_{\Delta t \to 0} \frac{\Delta x}{\Delta t} = \frac{dx}{dt}, \quad a = \lim_{\Delta t \to 0} \frac{\Delta v}{\Delta t} = \frac{dv}{dt} = v \frac{dv}{dx} = \frac{d^2x}{dt^2}$$
+            </div>
+            <div class="formula-details">
+                <div><span class="field-label">Symbols:</span> $x$ = position, $v$ = instantaneous velocity, $a$ = acceleration, $t$ = time.</div>
+                <div><span class="field-label">SI Units:</span> $v \to \text{m s}^{-1}$, $a \to \text{m s}^{-2}$</div>
+                <div class="formula-details-full"><span class="field-label">Conditions:</span> $a = v \frac{dv}{dx}$ is specifically used when acceleration is expressed as a function of position $x$ rather than time $t$.</div>
+            </div>
+        </div>
+
+        <div class="callout-box callout-caution">
+            <div class="callout-title">CAUTION: Zero Velocity vs. Zero Acceleration</div>
+            $v = 0$ at an instant does <strong>NOT</strong> mean $a = 0$. Example: At the apex of vertical throw, $v = 0$ but $a = -g = -9.8\text{ m s}^{-2}$.
+        </div>
+
+        <!-- Section 2: Kinematic Equations of Motion -->
+        <h2 class="section-title">2. Uniformly Accelerated Rectilinear Motion ($a = \text{constant}$)</h2>
+
+        <div class="formula-card">
+            <div class="card-header">
+                <span class="topic-name">Standard Equations of Motion</span>
+                <div>
+                    <span class="badge badge-must-know">MUST KNOW</span>
+                    <span class="badge badge-favourite">EXAM FAVOURITE</span>
+                </div>
+            </div>
+            <div class="formula-main">
+                $$v = v_0 + at, \quad x = x_0 + v_0 t + \frac{1}{2}a t^2, \quad v^2 = v_0^2 + 2a(x - x_0)$$
+            </div>
+            <div class="formula-details">
+                <div><span class="field-label">Symbols:</span> $v_0$ = initial velocity, $v$ = final velocity, $x_0$ = initial position, $x$ = final position.</div>
+                <div><span class="field-label">Average Velocity:</span> $\bar{v} = \frac{v + v_0}{2}$ (Valid <em>only</em> for constant $a$).</div>
+                <div class="formula-details-full"><span class="field-label">Displacement in $n^{\text{th}}$ second:</span> $D_n = v_0 + \frac{a}{2}(2n - 1)$ $\quad [\text{Unit: m}]$</div>
+            </div>
+        </div>
+
+        <!-- Derivation Block using Calculus -->
+        <div class="derivation-block">
+            <div class="derivation-title">Calculus Derivation of Motion Equations ($a = \text{constant}$)</div>
+            <ol class="step-list">
+                <li>
+                    <strong>Derivation of $v = v_0 + at$:</strong><br>
+                    Start with definition $a = \frac{dv}{dt} \implies dv = a \, dt$. Integrate both sides with limits $(v_0 \to v)$ and $(0 \to t)$:
+                    $$\int_{v_0}^{v} dv = a \int_{0}^{t} dt \implies [v]_{v_0}^{v} = a [t]_0^t \implies \boxed{v = v_0 + at}$$
+                </li>
+                <li>
+                    <strong>Derivation of $x - x_0 = v_0 t + \frac{1}{2}at^2$:</strong><br>
+                    Substitute $v = \frac{dx}{dt} \implies dx = v \, dt = (v_0 + at) \, dt$. Integrate both sides with limits $(x_0 \to x)$ and $(0 \to t)$:
+                    $$\int_{x_0}^{x} dx = \int_{0}^{t} (v_0 + at) \, dt \implies x - x_0 = v_0 [t]_0^t + a \left[ \frac{t^2}{2} \right]_0^t \implies \boxed{x = x_0 + v_0 t + \frac{1}{2}at^2}$$
+                </li>
+                <li>
+                    <strong>Derivation of $v^2 = v_0^2 + 2a(x - x_0)$:</strong><br>
+                    Use chain rule $a = v \frac{dv}{dx} \implies v \, dv = a \, dx$. Integrate both sides with limits $(v_0 \to v)$ and $(x_0 \to x)$:
+                    $$\int_{v_0}^{v} v \, dv = a \int_{x_0}^{x} dx \implies \left[ \frac{v^2}{2} \right]_{v_0}^{v} = a [x]_{x_0}^{x} \implies \frac{v^2 - v_0^2}{2} = a(x - x_0) \implies \boxed{v^2 = v_0^2 + 2a(x - x_0)}$$
+                </li>
+            </ol>
+        </div>
+
+        <!-- Section 3: Free Fall under Gravity -->
+        <h2 class="section-title">3. Vertical Motion Under Gravity (Free Fall)</h2>
+
+        <div class="formula-card">
+            <div class="card-header">
+                <span class="topic-name">Free Fall Equations (Sign Convention: Upward = $+y$)</span>
+                <div>
+                    <span class="badge badge-must-know">MUST KNOW</span>
+                </div>
+            </div>
+            <div class="formula-main">
+                $$a = -g \implies v = v_0 - gt, \quad y = y_0 + v_0 t - \frac{1}{2}gt^2, \quad v^2 = v_0^2 - 2g(y - y_0)$$
+            </div>
+            <div class="formula-details">
+                <div><span class="field-label">Max Height ($v=0$):</span> $H_{\text{max}} = \frac{v_0^2}{2g}$</div>
+                <div><span class="field-label">Time to Top:</span> $t_{\text{up}} = \frac{v_0}{g}$</div>
+                <div><span class="field-label">Total Time of Flight:</span> $T = \frac{2v_0}{g}$</div>
+                <div><span class="field-label">Impact Velocity:</span> $v_{\text{impact}} = -v_0$</div>
+            </div>
+        </div>
+
+        <div class="callout-box callout-shortcut">
+            <div class="callout-title">SHORTCUT: Galileo's Law of Odd Numbers</div>
+            For a body dropped from rest ($v_0 = 0$) under gravity, distances traversed in equal successive time intervals $\tau$ follow the odd number ratio:
+            $$y_1 : y_2 : y_3 : y_4 : \dots = 1 : 3 : 5 : 7 : \dots \quad \text{where } y_1 = \frac{1}{2}g\tau^2$$
+        </div>
+
+        <div class="page-footer">
+            <span>Physics Formula & Methods — Motion in a Straight Line</span>
+            <span>Page 1 of 2</span>
+        </div>
+    </div>
+
+    <!-- PAGE 2: METHODS, GRAPHS, RELATIVE VELOCITY & SPECIAL CASES -->
+    <div class="page-container">
+        <div class="header-banner">
+            <div>
+                <span class="chapter-tag">CBSE Class 11 / JEE Main / NEET Physics</span>
+                <h1 class="chapter-title">Chapter 2: Motion in a Straight Line</h1>
+            </div>
+            <div style="text-align: right;">
+                <span style="font-weight:700; color:var(--teal); font-size:12px;">METHODS & SPECIAL CASES</span>
+            </div>
+        </div>
+
+        <!-- Section 4: Graphical Analysis -->
+        <h2 class="section-title">4. Graphical Analysis & Physical Meanings</h2>
+
+        <div class="graph-grid">
+            <div class="graph-card">
+                <!-- SVG Graph: Position-Time -->
+                <svg viewBox="0 0 200 110">
+                    <line x1="25" y1="90" x2="180" y2="90" stroke="#252A34" stroke-width="1.5"/>
+                    <line x1="25" y1="90" x2="25" y2="10" stroke="#252A34" stroke-width="1.5"/>
+                    <text x="182" y="93" font-size="8" fill="#252A34">t(s)</text>
+                    <text x="12" y="15" font-size="8" fill="#252A34">x(m)</text>
+                    <!-- Parabola upward -->
+                    <path d="M 25 90 Q 100 85 160 20" fill="none" stroke="#008C95" stroke-width="2"/>
+                    <!-- Tangent Line -->
+                    <line x1="70" y1="85" x2="150" y2="25" stroke="#F4B942" stroke-width="1.2" stroke-dasharray="3,3"/>
+                    <circle cx="110" cy="55" r="2.5" fill="#17365D"/>
+                    <text x="115" y="62" font-size="7" fill="#17365D">P (t=4s)</text>
+                </svg>
+                <div class="graph-caption">Position-Time Graph ($x-t$)</div>
+                <div style="font-size: 10px; color: var(--text); text-align: left; margin-top: 4px;">
+                    • <strong>Slope of tangent:</strong> Instantaneous velocity ($v = \frac{dx}{dt}$)<br>
+                    • <strong>Curvature upward:</strong> Positive acceleration ($a > 0$)
+                </div>
+            </div>
+
+            <div class="graph-card">
+                <!-- SVG Graph: Velocity-Time -->
+                <svg viewBox="0 0 200 110">
+                    <line x1="25" y1="90" x2="180" y2="90" stroke="#252A34" stroke-width="1.5"/>
+                    <line x1="25" y1="90" x2="25" y2="10" stroke="#252A34" stroke-width="1.5"/>
+                    <text x="182" y="93" font-size="8" fill="#252A34">t(s)</text>
+                    <text x="12" y="15" font-size="8" fill="#252A34">v(m/s)</text>
+                    <!-- Trapezoid line -->
+                    <line x1="25" y1="65" x2="150" y2="25" stroke="#008C95" stroke-width="2"/>
+                    <!-- Area fill -->
+                    <polygon points="25,90 25,65 150,25 150,90" fill="#EAF3FB" opacity="0.8"/>
+                    <line x1="150" y1="25" x2="150" y2="90" stroke="#17365D" stroke-width="1" stroke-dasharray="2,2"/>
+                    <text x="75" y="70" font-size="8" fill="#17365D" font-weight="bold">Area = Displacement</text>
+                </svg>
+                <div class="graph-caption">Velocity-Time Graph ($v-t$)</div>
+                <div style="font-size: 10px; color: var(--text); text-align: left; margin-top: 4px;">
+                    • <strong>Slope of line:</strong> Acceleration ($a = \frac{dv}{dt}$)<br>
+                    • <strong>Area under curve:</strong> Net Displacement ($\Delta x = \int v \, dt$)
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Numerical Solving Templates -->
+        <h2 class="section-title">5. Numerical Solving Templates</h2>
+
+        <div class="method-block">
+            <div class="method-title">1. Stopping Distance & Reaction Time Problems</div>
+            <div class="method-flow">
+                <span>Given: $v_0, a = -d$</span>
+                <span class="arrow">&rightarrow;</span>
+                <span>Formula: $v^2 = v_0^2 + 2ax$ ($v=0$)</span>
+                <span class="arrow">&rightarrow;</span>
+                <span>Stopping Distance: $d_s = \frac{v_0^2}{2a}$</span>
+            </div>
+            <div style="font-size: 11px; margin-top: 4px;">
+                • <strong>Reaction Time ($t_r$):</strong> Distance traveled during thinking phase before applying brakes = $d_{\text{think}} = v_0 \cdot t_r$<br>
+                • <strong>Total Stopping Distance:</strong> $d_{\text{total}} = (v_0 \cdot t_r) + \frac{v_0^2}{2a}$
+            </div>
+        </div>
+
+        <div class="method-block">
+            <div class="method-title">2. Ball Thrown Up from Building Height $h$ (Single-Step Method)</div>
+            <div class="method-flow">
+                <span>Given: $y_0 = +h, y = 0, v_0 = +u, a = -g$</span>
+                <span class="arrow">&rightarrow;</span>
+                <span>Substitute into: $y = y_0 + v_0 t + \frac{1}{2}at^2$</span>
+                <span class="arrow">&rightarrow;</span>
+                <span>Solve: $0 = h + ut - \frac{1}{2}gt^2$</span>
+            </div>
+            <div style="font-size: 11px; margin-top: 4px;">
+                <strong>Worked Numerical Example (NCERT Ex 2.3):</strong><br>
+                <em>Given:</em> $y_0 = 25\text{ m}, v_0 = +20\text{ m s}^{-1}, a = -10\text{ m s}^{-2}, y = 0$ (ground).<br>
+                $$0 = 25 + 20t - 5t^2 \implies 5t^2 - 20t - 25 = 0 \implies t^2 - 4t - 5 = 0 \implies (t - 5)(t + 1) = 0$$
+                $$\text{Discard negative time } t = -1\text{s} \implies \boxed{t = 5\text{ s}}$$
+            </div>
+        </div>
+
+        <!-- Section 6: Relative Velocity in One Dimension -->
+        <h2 class="section-title">6. Relative Velocity in One Dimension</h2>
+
+        <div class="formula-card">
+            <div class="card-header">
+                <span class="topic-name">Relative Velocity Equations</span>
+                <div>
+                    <span class="badge badge-must-know">MUST KNOW</span>
+                    <span class="badge badge-favourite">EXAM FAVOURITE</span>
+                </div>
+            </div>
+            <div class="formula-main">
+                $$v_{AB} = v_A - v_B, \quad v_{BA} = v_B - v_A = -v_{AB}$$
+            </div>
+            <div class="formula-details">
+                <div><span class="field-label">Same Direction:</span> $v_{\text{rel}} = |v_A - v_B|$</div>
+                <div><span class="field-label">Opposite Direction:</span> $v_{\text{rel}} = v_A + v_B$</div>
+                <div class="formula-details-full">
+                    <span class="field-label">Relative Acceleration:</span> $a_{AB} = a_A - a_B \implies x_{\text{rel}} = (v_{AB}) t + \frac{1}{2} (a_{AB}) t^2$
+                </div>
+            </div>
+        </div>
+
+        <div class="callout-box callout-shortcut">
+            <div class="callout-title">SHORTCUT: Police Van & Thief Bullet Catch Problem (NCERT Ex 2.14)</div>
+            <strong>Formula:</strong> $v_{\text{muzzle}}$ is bullet speed relative to police van ($v_P$).<br>
+            • Absolute speed of bullet: $v_b = v_{\text{muzzle}} + v_P$<br>
+            • Speed with which bullet hits thief's car ($v_T$): $v_{\text{rel}} = v_b - v_T = (v_{\text{muzzle}} + v_P) - v_T$
+        </div>
+
+        <!-- Section 7: Units, Dimensions & Physical Constants Table -->
+        <h2 class="section-title">7. SI Units, Dimensions & Constants Reference</h2>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Physical Quantity</th>
+                    <th>Symbol</th>
+                    <th>Dimension</th>
+                    <th>SI Unit</th>
+                    <th>Key Proportionality / Constant</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Displacement / Position</td>
+                    <td>$x, y, s$</td>
+                    <td>$[\text{L}]$</td>
+                    <td>$\text{m}$</td>
+                    <td>$x \propto t^2$ (for constant $a$, $v_0=0$)</td>
+                </tr>
+                <tr>
+                    <td>Velocity</td>
+                    <td>$v, u$</td>
+                    <td>$[\text{L T}^{-1}]$</td>
+                    <td>$\text{m s}^{-1}$</td>
+                    <td>$1 \text{ km h}^{-1} = \frac{5}{18} \text{ m s}^{-1} \approx 0.278 \text{ m s}^{-1}$</td>
+                </tr>
+                <tr>
+                    <td>Acceleration</td>
+                    <td>$a, g$</td>
+                    <td>$[\text{L T}^{-2}]$</td>
+                    <td>$\text{m s}^{-2}$</td>
+                    <td>$g \approx 9.8 \text{ m s}^{-2} \approx 10 \text{ m s}^{-2}$</td>
+                </tr>
+                <tr>
+                    <td>Stopping Distance</td>
+                    <td>$d_s$</td>
+                    <td>$[\text{L}]$</td>
+                    <td>$\text{m}$</td>
+                    <td>$d_s \propto v_0^2$ (Doubling $v_0$ quadruples $d_s$)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-footer">
+            <span>Physics Formula & Methods — Motion in a Straight Line</span>
+            <span>Page 2 of 2</span>
+        </div>
+    </div>
+
+    <script>
+        // Ensure PDF export / print happens only after MathJax complete rendering
+        window.addEventListener('beforeprint', () => {
+            console.log('Preparing page for printing...');
+        });
+    </script>
+</body>
+</html>

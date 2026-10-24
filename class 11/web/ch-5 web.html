@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Formula & Methods: Work, Energy and Power</title>
+    <!-- MathJax for LaTeX typesetting -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --navy: #17365D;
+            --teal: #008C95;
+            --formula-bg: #EAF3FB;
+            --amber: #F4B942;
+            --warning-bg: #FCE8E6;
+            --text: #252A34;
+            --page-bg: #FFFFFF;
+            --border: #D9E1EA;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background-color: var(--page-bg);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: var(--page-bg);
+            padding: 20mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Cover / Header */
+        .header-banner {
+            background-color: var(--navy);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 6px;
+            margin-bottom: 30px;
+        }
+
+        .header-banner h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .header-banner p {
+            font-size: 14px;
+            color: #d9e1ea;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            color: var(--navy);
+            font-size: 20px;
+            border-bottom: 2px solid var(--teal);
+            padding-bottom: 5px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            color: var(--teal);
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            page-break-after: avoid;
+        }
+
+        p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        /* Formula Cards */
+        .formula-card {
+            background-color: var(--formula-bg);
+            border-left: 4px solid var(--teal);
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            page-break-inside: avoid;
+        }
+
+        .formula-card .topic {
+            font-weight: bold;
+            color: var(--navy);
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .equation-box {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .card-details {
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .card-details span {
+            font-weight: 600;
+        }
+
+        /* Callout Boxes (Labels) */
+        .callout {
+            border-radius: 4px;
+            padding: 12px 15px;
+            margin: 15px 0;
+            font-size: 13px;
+            page-break-inside: avoid;
+        }
+
+        .callout.must-know {
+            background-color: var(--formula-bg);
+            border-left: 4px solid var(--teal);
+        }
+
+        .callout.exam-favourite {
+            background-color: #FFF8E7;
+            border-left: 4px solid var(--amber);
+        }
+
+        .callout.caution {
+            background-color: var(--warning-bg);
+            border-left: 4px solid #D9534F;
+        }
+
+        .callout-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+
+        .must-know .callout-title { color: var(--teal); }
+        .exam-favourite .callout-title { color: #B38600; }
+        .caution .callout-title { color: #D9534F; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 13px;
+            page-break-inside: avoid;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--navy);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+
+        /* Export Button */
+        .no-print {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn-export {
+            background-color: var(--teal);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .btn-export:hover {
+            background-color: #006D75;
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { padding: 0; background: white; }
+            .container { box-shadow: none; padding: 10mm; width: 100%; max-width: none; }
+            @page { size: A4 portrait; margin: 15mm; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print">
+    <button class="btn-export" onclick="window.print()">Export to PDF / Print A4</button>
+</div>
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="header-banner">
+        <h1>PHYSICS FORMULA & METHODS HANDBOOK</h1>
+        <p>Chapter 5: Work, Energy and Power | CBSE / JEE / NEET Exam-Oriented Notes</p>
+    </div>
+
+    <!-- Section 1 -->
+    <h2>1. Scalar Product of Vectors</h2>
+    <p>The scalar (dot) product of two vectors \(\vec{A}\) and \(\vec{B}\) yields a scalar quantity[cite: 52].</p>
+    
+    <div class="formula-card">
+        <div class="topic">Topic: Scalar Product Definition</div>
+        <div class="equation-box">
+            \[\vec{A} \cdot \vec{B} = A B \cos\theta\]
+        </div>
+        <div class="card-details">
+            <span>Symbols:</span> \(\theta\) = angle between vectors, \(A, B\) = magnitudes.<br>
+            <span>Component Form:</span> \(\vec{A} \cdot \vec{B} = A_x B_x + A_y B_y + A_z B_z\)[cite: 52]<br>
+            <span>Condition for Perpendicularity:</span> \(\vec{A} \cdot \vec{B} = 0\) (since \(\cos 90^\circ = 0\))[cite: 52]
+        </div>
+    </div>
+
+    <div class="callout must-know">
+        <div class="callout-title">Must Know</div>
+        Unit vector dot products: \(\hat{i}\cdot\hat{i} = \hat{j}\cdot\hat{j} = \hat{k}\cdot\hat{k} = 1\) and \(\hat{i}\cdot\hat{j} = \hat{j}\cdot\hat{k} = \hat{k}\cdot\hat{i} = 0\)[cite: 52].
+    </div>
+
+    <!-- Section 2 -->
+    <h2>2. Work & The Work-Energy Theorem</h2>
+    
+    <div class="formula-card">
+        <div class="topic">Topic: Work Done by Constant Force</div>
+        <div class="equation-box">
+            \[W = (F \cos\theta)d = \vec{F} \cdot \vec{d}\]
+        </div>
+        <div class="card-details">
+            <span>Symbols:</span> \(F\) = force magnitude, \(d\) = displacement, \(\theta\) = angle between force and displacement.<br>
+            <span>SI Unit:</span> Joule (\(\text{J}\)) or \(\text{kg m}^2 \text{s}^{-2}\). Dimensions: \([ML^2T^{-2}]\)[cite: 54].
+        </div>
+    </div>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Work Done by Variable Force (1D)</div>
+        <div class="equation-box">
+            \[W = \int_{x_i}^{x_f} F(x) dx = \text{Area under } F\text{-}x \text{ curve}\]
+        </div>
+    </div>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Work-Energy Theorem</div>
+        <div class="equation-box">
+            \[W_{\text{net}} = K_f - K_i = \Delta K\]
+        </div>
+        <div class="card-details">
+            <span>Statement:</span> The work done by the net force on an object equals the change in its kinetic energy[cite: 53].<br>
+            <span>Kinetic Energy:</span> \(K = \frac{1}{2}mv^2\)[cite: 54]
+        </div>
+    </div>
+
+    <div class="callout caution">
+        <div class="callout-title">Caution</div>
+        Work done by friction or viscous drag is generally negative (\(\theta = 180^\circ\)), reducing the kinetic energy of the system[cite: 54].
+    </div>
+
+    <!-- Section 3 -->
+    <h2>3. Potential Energy & Conservative Forces</h2>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Conservative Force & Potential Energy relation</div>
+        <div class="equation-box">
+            \[F(x) = -\frac{dV(x)}{dx} \implies \Delta V = -W_c = -\int_{x_i}^{x_f} F(x) dx\]
+        </div>
+    </div>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Gravitational & Spring Potential Energy</div>
+        <div class="equation-box">
+            \[V_{\text{grav}} = mgh \quad \text{and} \quad V_{\text{spring}} = \frac{1}{2}kx^2\]
+        </div>
+        <div class="card-details">
+            <span>Hooke's Law (Spring Force):</span> \(F_s = -kx\) (where \(k\) is spring constant in \(\text{N m}^{-1}\)).
+        </div>
+    </div>
+
+    <!-- Section 4 -->
+    <h2>4. Conservation of Mechanical Energy</h2>
+    
+    <div class="formula-card">
+        <div class="topic">Topic: Total Mechanical Energy (\(E\))</div>
+        <div class="equation-box">
+            \[E = K + V = \text{constant} \quad (\text{when only conservative forces act})\]
+        </div>
+        <div class="card-details">
+            <span>Non-Conservative Forces Present:</span> \(E_f - E_i = W_{\text{nc}}\) (where \(W_{\text{nc}}\) is work done by friction/external non-conservative forces).
+        </div>
+    </div>
+
+    <!-- Section 5 -->
+    <h2>5. Power</h2>
+
+    <div class="formula-card">
+        <div class="topic">Topic: Instantaneous & Average Power</div>
+        <div class="equation-box">
+            \[P = \frac{dW}{dt} = \vec{F} \cdot \vec{v} \quad \text{and} \quad P_{\text{av}} = \frac{W}{t}\]
+        </div>
+        <div class="card-details">
+            <span>SI Unit:</span> Watt (\(\text{W}\)) or \(\text{J s}^{-1}\). Dimensions: \([ML^2T^{-3}]\).<br>
+            <span>Conversion:</span> \(1\text{ hp} = 746\text{ W}\).
+        </div>
+    </div>
+
+    <!-- Section 6 -->
+    <h2>6. Collisions</h2>
+
+    <div class="formula-card">
+        <div class="topic">Topic: One-Dimensional Elastic Collision (Head-on)</div>
+        <div class="equation-box">
+            \[v_{1f} = \frac{m_1 - m_2}{m_1 + m_2}v_{1i} \quad \text{and} \quad v_{2f} = \frac{2m_1 v_{1i}}{m_1 + m_2}\]
+        </div>
+        <div class="card-details">
+            <span>Key Principle:</span> Total linear momentum is conserved in all collisions. Kinetic energy is conserved only in elastic collisions.<br>
+            <span>Equal Masses (\(m_1 = m_2\)):</span> \(v_{1f} = 0, \ v_{2f} = v_{1i}\) (Velocities are exchanged).
+        </div>
+    </div>
+
+    <div class="callout exam-favourite">
+        <div class="callout-title">Exam Favourite</div>
+        For a 2D elastic collision between two equal masses (\(m_1 = m_2\)) with one stationary target, the two bodies move at <b>right angles</b> to each other after collision (\(\theta_1 + \theta_2 = 90^\circ\)).
+    </div>
+
+    <!-- Constants & Units Table -->
+    <h2>7. Energy Units & Conversions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Unit Name</th>
+                <th>Symbol / Value in Joules</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Erg</td><td>\(1 \text{ erg} = 10^{-7} \text{ J}\)</td></tr>
+            <tr><td>Electron Volt</td><td>\(1 \text{ eV} = 1.6 \times 10^{-19} \text{ J}\)</td></tr>
+            <tr><td>Calorie</td><td>\(1 \text{ cal} = 4.186 \text{ J}\)</td></tr>
+            <tr><td>Kilowatt-hour</td><td>\(1 \text{ kWh} = 3.6 \times 10^6 \text{ J}\)</td></tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
